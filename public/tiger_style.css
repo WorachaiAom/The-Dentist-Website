@@ -8,9 +8,9 @@
 
 /* Ensure Full Page Height */
 html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    height: 100%;  /* Full height of viewport */
+    overflow-x: hidden;  /* Prevent horizontal scrolling */
+    margin: 0;
 }
 
 /* Navigation Bar - Fixed at Top */
@@ -43,11 +43,21 @@ nav a:hover {
 }
 
 /* Push Content Below Fixed Navbar */
+/* Main Content Area */
 .container {
     flex: 1; /* Pushes footer to the bottom */
-    padding-top: 100px; /* Increased padding to create gap */
+    padding-top: 120px; /* Add some space to avoid overlap with navbar */
+    padding-bottom: 60px; /* Ensure footer doesn't overlap with content */
     max-width: 1200px;
     margin: auto;
+    overflow-y: auto;  /* Allow scrolling */
+}
+
+/*LOGO */
+.logoText{
+    color: white;
+    font-size: 2rem;
+    font-weight: bolder;
 }
 
 /* Hero Section */
@@ -60,6 +70,7 @@ nav a:hover {
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 1.5s ease-in-out;
+    margin-bottom: 50px; /* Add margin to create space after hero section */
 }
 
 .hero h1 {
@@ -132,4 +143,26 @@ footer {
     position: fixed;  /* Stays fixed */
     bottom: 0;        /* Stick to the bottom */
     left: 0;
+    display: grid;
+    gap: 20px; /* Add spacing between elements */
+    box-sizing: border-box;  /* Prevents footer from going outside the page */
+}
+
+/*Other Style */
+.bookshelf {
+    display: flex; /* ใช้ Flexbox แทน */
+    align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
+    justify-content: flex-end; /* ชิดขวา */
+    white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
+}
+.bookshelf img {
+    height: 1cm;
+    width: 1cm;
+    margin-left: 10px;
+}
+.bookshelf a {
+    margin-left: 10px;
+    text-decoration: none; /* ลบขีดเส้นใต้ลิงก์ */
+    color: white; /* ตั้งค่าสีตามต้องการ */
+    font-size: 16px;
 }
