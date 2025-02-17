@@ -15,6 +15,15 @@ app.get("/", (req, res) => {
     res.render("homepage");
 });
 
+app.get("/homepage", (req, res) => {
+    res.render("homepage");
+});
+
+// History 
+app.get("/History", (req, res) => {
+    res.render("history");
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
