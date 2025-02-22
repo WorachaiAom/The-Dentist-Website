@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการการนัดหมาย</title>
+    <link rel="stylesheet" href="./Yolo_style.css">
+    <link rel="stylesheet" href="./Yolo_nav_style.css">
+</head>
+<body>
+    <%- include('edit_page_nav'); %> 
+    <div class="container">
+        <div class="header">
+            <h1>รายการการนัดหมาย</h1>
+            <div class="search-box">
+                <input type="text" placeholder="ค้นหา...">
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+        <table class="appointment-table">
+            <thead>
+                <tr>
+                    <th>รายการ</th>
+                    <th>สถานะ</th>
+                    <th>ผู้ให้บริการ</th>
+                    <th>วันที่ได้รับบริการ</th>
+                    <th>บันทึกเพิ่มเติม</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="edit-btn">✏️</button>
+                        <button class="delete-btn">❌</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
