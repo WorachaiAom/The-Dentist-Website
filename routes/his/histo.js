@@ -17,6 +17,7 @@ router.get("/", (req, res) => {
         JOIN state ON appointment.state_id = state.id
         JOIN employees ON appointment.employee_id = employees.id
         JOIN services ON appointment.service_id = services.id
+        WHERE state.status = 'สำเร็จแล้ว'
         ORDER BY appointment.date DESC;
     `;
 
