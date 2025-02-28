@@ -11,19 +11,6 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 // Home route using EJS
-app.get("/", (req, res) => {
-    res.render("homepage");
-});
-
-app.get("/homepage", (req, res) => {
-    res.render("homepage");
-});
-
-// History 
-app.get("/History", (req, res) => {
-    res.render("history");
-});
-
 app.get("/AppointmentManagement", (req, res) => {
     res.render("edit_appointment");
 });
