@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const sqlite3 = require('sqlite3').verbose();
 const { db, checkDatabaseConnection } = require("../../database/database");
 
-router.get("/", (req, res) => {
+// เส้นทางสำหรับหน้าแก้ไขการนัดหมาย
+router.get('/', (req, res) => {
     const sql = `
         SELECT 
             appointment.id,
-            customers.fname || ' ' || customers.sname AS customer_name,
             state.status AS appointment_status,
-            employees.fname || ' ' || employees.sname AS provider_name,
+            state.id AS state_id,
             services.name AS service_name,
             appointment.date,
             appointment.note
@@ -26,7 +27,7 @@ router.get("/", (req, res) => {
             console.error("Error fetching appointment history:", err.message);
             return res.status(500).send("Database error");
         }
-        res.render("histo/history", { appointments: rows });
+        res.render("edit/edit_appointment", { appointments: rows });
     });
 });
 

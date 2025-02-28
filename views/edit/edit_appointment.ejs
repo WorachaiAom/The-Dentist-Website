@@ -8,7 +8,7 @@
 <body>
     <div class="history-container">
         <div class="header">
-            <button class="back-button">←</button>
+            <a href="/home"><button class="back-button">←</button></a>
         </div>
         <div class="header-section">
             <div class="title-section">
@@ -30,23 +30,25 @@
                 <table class="history-table">
                     <thead>
                         <tr>
-                            <th>รายการ</th>
+                            <th>บริการ</th>
                             <th>สถานะ</th>
-                            <th>ผู้ให้บริการ</th>
-                            <th>วันที่ได้รับบริการ</th>
+                            <th>วัน-เวลานัดหมาย</th>
                             <th>บันทึกเพิ่มเติม</th>
                             <th>ค่าบริการ</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
+                        <% appointments.forEach(appointment => { %>
+                            <% if (appointment.state_id == 1 || appointment.state_id == 2) { %>
+                                <tr>
+                                    <td><%= appointment.service_name %></td>
+                                    <td><%= appointment.appointment_status %></td>
+                                    <td><%= appointment.date %></td>
+                                    <td><%= appointment.note %></td>
+                                    <td></td>
+                                </tr>
+                            <% }; %>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>

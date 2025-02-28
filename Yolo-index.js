@@ -3,7 +3,8 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth/auth');
 const homeRoutes = require('./routes/home');
 const hisRoutes = require('./routes/his/histo');
-const editRoutes = require('./routes/edit/edit');
+const editapptRoutes = require('./routes/edit/eappt');
+const editacctRoutes = require('./routes/edit/eacct');
 const path = require('path');
 const { db, checkDatabaseConnection } = require('./database/database');
 const { console } = require('inspector');
@@ -21,7 +22,8 @@ app.use('/', authRoutes);
 app.use('/home', homeRoutes);
 app.use('', homeRoutes);
 app.use('/history', hisRoutes);
-app.use('', editRoutes);
+app.use('/editappt', editapptRoutes);
+app.use('/editacct', editacctRoutes);
 
 checkDatabaseConnection()
   .then((message) => {
@@ -31,6 +33,8 @@ checkDatabaseConnection()
     app.use('/', authRoutes);
     app.use('/home', homeRoutes);
     app.use('/history', hisRoutes);
+    app.use('/editappt', editapptRoutes);
+    app.use('/editacct', editacctRoutes);
 
     const PORT = process.env.PORT || 80;
     app.listen(PORT, () => {

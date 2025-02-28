@@ -33,21 +33,22 @@
                 <table class="history-table">
                     <thead>
                         <tr>
-                            <th>ผู้เข้ารับบริการ</th>
+                            <th>บริการ</th>
                             <th>สถานะ</th>
                             <th>ผู้ให้บริการ</th>
                             <th>วันที่ได้รับบริการ</th>
                             <th>บันทึกเพิ่มเติม</th>
+                            <th>ค่าบริการ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% appointments.forEach(appointment => { %>
                             <tr>
-                                <td><%= appointment.customer_name %></td>
+                                <td><%= appointment.service_name %></td>
                                 <td><%= appointment.appointment_status %></td>
                                 <td><%= appointment.provider_name %></td>
                                 <td><%= appointment.date %></td>
-                                <td><%= appointment.service_name %></td>
+                                <td><%= appointment.note %></td>
                             </tr>
                         <% }); %>
                     </tbody>
