@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
     <link rel="stylesheet" href="../styles/history.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -70,7 +64,7 @@
         </div>
     </div>
     <center>
-        <button class="button-download" onclick="downloadPDF()">ดาวน์โหลด</button>
+        <button class="button-download" onclick="downloadExcel()">ดาวน์โหลด</button>
     </center>
 
     <script>
@@ -89,30 +83,14 @@
             });
         });
 
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        function downloadExcel() {
+        let table = document.querySelector(".history-table");
+        let wb = XLSX.utils.book_new();
+        let ws = XLSX.utils.table_to_sheet(table);
 
-            doc.setFont('Sarabun', 'normal');
-
-            doc.setFontSize(12);
-
-            doc.text("ประวัติการเข้าใช้", 10, 10);
-
-            doc.autoTable({
-                html: '.history-table',
-                startY: 20,
-                styles: { font: 'Sarabun', fontSize: 12, cellPadding: 2 },
-                didParseCell: function (data) {
-                    if (data.row.section === 'body' && data.cell.raw.style.display === 'none') {
-                        data.cell.text = '';
-                    }
-                }
-            });
-
-            doc.save("ประวัติการเข้าใช้.pdf");
-        }
-
+        XLSX.utils.book_append_sheet(wb, ws, "History");
+        XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
+    }
     </script>
 </body>
 
