@@ -41,13 +41,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
+                        <% appointments.forEach(appointment => { %>
+                            <tr>
+                                <td><%= appointment.customer_name %></td>
+                                <td><%= appointment.appointment_status %></td>
+                                <td><%= appointment.provider_name %></td>
+                                <td><%= appointment.date %></td>
+                                <td><%= appointment.service_name %></td>
+                            </tr>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
