@@ -11,11 +11,11 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 // Home route using EJS
-app.get("/AppointmentManagement", (req, res) => {
+app.get("/EditAppt", (req, res) => {
     res.render("edit_appointment");
 });
 
-app.get("/EditAccount", (req, res) => {
+app.get("/EditAcct", (req, res) => {
     res.render("edit_profile");
 });
 

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>บัญชีผู้ใช้</title>
-    <link rel="stylesheet" href="./Yolo_style2.css">
-    <link rel="stylesheet" href="./Yolo_nav_style.css">
+    <link rel="stylesheet" href="./styles/yolo_style2.css">
+    <link rel="stylesheet" href="./styles/yolo_nav_style.css">
 </head>
 <body>
     <%- include('edit_page_nav'); %>
@@ -15,20 +15,20 @@
 
             <div class="info-row">
                 <span class="label">ชื่อผู้ใช้</span>
-                <span class="value" id="usernameDisplay">มานพ หัวควย</span>
-                <i class="edit-icon" onclick="openEditPopup('username')">✏️</i>
+                <span class="value" id="usernameDisplay">มานวย</span>
+                <i class="edit-icon" onclick="openEditPopup('username')">แก้ไข</i>
             </div>
 
             <div class="info-row">
                 <span class="label">อีเมล</span>
                 <span class="value" id="emailDisplay">มานพหัวควย@gamil.com</span>
-                <i class="edit-icon" onclick="openEditPopup('email')">✏️</i>
+                <i class="edit-icon" onclick="openEditPopup('email')">แก้ไข</i>
             </div>
 
             <div class="info-row">
                 <span class="label">รหัสผ่าน</span>
                 <span class="value" id="passwordDisplay">********</span>
-                <i class="edit-icon" onclick="openEditPopup('password')">✏️</i>
+                <i class="edit-icon" onclick="openEditPopup('password')">แก้ไข</i>
             </div>
 
             <button class="confirm-btn" onclick="confirmChanges()">ยืนยัน</button>
@@ -51,7 +51,7 @@
     <div class="popup-overlay" id="confirmPopup">
         <div class="popup-box">
             <h3>ยืนยันการเปลี่ยนแปลง</h3>
-            <p id="summaryText"></p>
+            <p id="summaryText"></p> <br>
             <div class="popup-buttons">
                 <button class="popup-cancel" onclick="closeConfirmPopup()">ยกเลิก</button>
                 <button class="popup-confirm" onclick="finalConfirm()">ยืนยัน</button>
@@ -59,6 +59,6 @@
         </div>
     </div>
 
-    <script src="./yolo_script.js"></script>
+    <script src="./scripts/yolo_script.js"></script>
 </body>
 </html>
