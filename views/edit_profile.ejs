@@ -10,7 +10,55 @@
 <body>
     <%- include('edit_page_nav'); %>
     <div class="container">
-        
+        <div class="user-info-card">
+            <h2 class="title">บัญชีผู้ใช้</h2>
+
+            <div class="info-row">
+                <span class="label">ชื่อผู้ใช้</span>
+                <span class="value" id="usernameDisplay">มานพ หัวควย</span>
+                <i class="edit-icon" onclick="openEditPopup('username')">✏️</i>
+            </div>
+
+            <div class="info-row">
+                <span class="label">อีเมล</span>
+                <span class="value" id="emailDisplay">มานพหัวควย@gamil.com</span>
+                <i class="edit-icon" onclick="openEditPopup('email')">✏️</i>
+            </div>
+
+            <div class="info-row">
+                <span class="label">รหัสผ่าน</span>
+                <span class="value" id="passwordDisplay">********</span>
+                <i class="edit-icon" onclick="openEditPopup('password')">✏️</i>
+            </div>
+
+            <button class="confirm-btn" onclick="confirmChanges()">ยืนยัน</button>
+        </div>
     </div>
+
+    <!-- Pop-up สำหรับแก้ไขข้อมูล -->
+    <div class="popup-overlay" id="editPopup">
+        <div class="popup-box">
+            <h3>แก้ไขข้อมูล</h3>
+            <input type="text" id="editInput" placeholder="">
+            <div class="popup-buttons">
+                <button class="popup-cancel" onclick="closeEditPopup()">ยกเลิก</button>
+                <button class="popup-confirm" onclick="saveEdit()">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up ยืนยันการเปลี่ยนแปลง -->
+    <div class="popup-overlay" id="confirmPopup">
+        <div class="popup-box">
+            <h3>ยืนยันการเปลี่ยนแปลง</h3>
+            <p id="summaryText"></p>
+            <div class="popup-buttons">
+                <button class="popup-cancel" onclick="closeConfirmPopup()">ยกเลิก</button>
+                <button class="popup-confirm" onclick="finalConfirm()">ยืนยัน</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./yolo_script.js"></script>
 </body>
 </html>
