@@ -76,7 +76,26 @@ router.post("/login", (req, res) => {
   const { username, password } = req.body;
 
   db.get(
-    `SELECT * FROM users WHERE username = ?`,
+    `SELECT 
+      users.id AS user_id, 
+      users.username, 
+      users.password, 
+      customers.fname AS customer_fname, 
+      customers.sname AS customer_sname, 
+      employees.role_id, 
+      employees.fname AS employee_fname, 
+      employees.sname AS employee_sname,
+      roles.role
+    FROM 
+      users 
+    LEFT JOIN 
+        customers ON users.id = customers.id 
+    LEFT JOIN 
+        employees ON users.id = employees.id 
+    LEFT JOIN
+      roles on employees.role_id = roles.id
+    WHERE 
+        users.username = ?;`,
     [username],
     async (err, user) => {
       if (err || !user) {
@@ -89,6 +108,10 @@ router.post("/login", (req, res) => {
       }
 
       res.cookie("username", user.username);
+      if (user.role_id){
+        res.cookie("role", user.role);
+      }else{
+        res.cookie("role", "customer");}
       res.redirect("/home");
     }
   );
