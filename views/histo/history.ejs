@@ -1,29 +1,27 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
     <link rel="stylesheet" href="../styles/history.css">
 </head>
+
 <body>
     <div class="history-container">
-        
+
         <div class="header">
             <button class="back-button">←</button>
         </div>
 
-        
+
         <div class="header-section">
             <div class="title-section">
                 <h1 class="title">ประวัติการเข้าใช้</h1>
             </div>
             <div class="search-container">
                 <div class="search-box-wrapper">
-                    <input
-                        type="text"
-                        placeholder="search"
-                        class="search-input"
-                    >
+                    <input type="text" placeholder="search" class="search-input">
                 </div>
             </div>
         </div>
@@ -41,15 +39,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% appointments.forEach(appointment => { %>
+                        <% appointments.forEach(appointment=> { %>
                             <tr>
-                                <td><%= appointment.customer_name %></td>
-                                <td><%= appointment.appointment_status %></td>
-                                <td><%= appointment.provider_name %></td>
-                                <td><%= appointment.date %></td>
-                                <td><%= appointment.service_name %></td>
+                                <td>
+                                    <%= appointment.customer_name %>
+                                </td>
+                                <td>
+                                    <%= appointment.appointment_status %>
+                                </td>
+                                <td>
+                                    <%= appointment.provider_name %>
+                                </td>
+                                <td>
+                                    <%= appointment.date %>
+                                </td>
+                                <td>
+                                    <%= appointment.service_name %>
+                                </td>
                             </tr>
-                        <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>
@@ -58,5 +66,28 @@
     <center>
         <button class="button-download">ดาวน์โหลด</button>
     </center>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const table = document.querySelector('.history-table tbody');
+            const rows = table.getElementsByTagName('tr');
+
+            searchInput.addEventListener('input', function () {
+                const query = searchInput.value.toLowerCase();
+
+                Array.from(rows).forEach(row => {
+                    const serviceCell = row.cells[4]; // The "บันทึกเพิ่มเติม" (service_name) column
+                    const serviceName = serviceCell.textContent.toLowerCase();
+
+                    if (serviceName.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
