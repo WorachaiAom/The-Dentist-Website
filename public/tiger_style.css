@@ -1,0 +1,114 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Ensure Full Page Height */
+html, body {
+    height: 100%;  /* Full height of viewport */
+    overflow-x: hidden;  /* Prevent horizontal scrolling */
+    margin: 0;
+}
+
+/* Push Content Below Fixed Navbar */
+/* Main Content Area */
+.container {
+    flex: 1; /* Pushes footer to the bottom */
+    padding-top: 120px; /* Add some space to avoid overlap with navbar */
+    padding-bottom: 60px; /* Ensure footer doesn't overlap with content */
+    max-width: 1200px;
+    margin: auto;
+    overflow-y: auto;  /* Allow scrolling */
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #6dd5ed, #2193b0);
+    color: white;
+    padding: 100px 20px;
+    border-radius: 12px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1.5s ease-in-out;
+    margin-bottom: 50px; /* Add margin to create space after hero section */
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    margin-top: 10px;
+}
+
+/* Button Styling */
+.btn {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+    background: #e63946;
+    transform: scale(1.05);
+}
+
+/* Services Section */
+.services {
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.services h2 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.service-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Footer - Fixed at Bottom */
+footer {
+    background-color: #262627;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    position: fixed;  /* Stays fixed */
+    bottom: 0;        /* Stick to the bottom */
+    left: 0;
+    display: grid;
+    gap: 20px; /* Add spacing between elements */
+    box-sizing: border-box;  /* Prevents footer from going outside the page */
+}
+
