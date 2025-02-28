@@ -1,0 +1,54 @@
+/*Other Style */
+.bookshelf {
+    display: flex; /* ใช้ Flexbox แทน */
+    align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
+    justify-content: flex-end; /* ชิดขวา */
+    white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
+}
+.bookshelf img {
+    height: 1cm;
+    width: 1cm;
+    margin-left: 10px;
+}
+.bookshelf a {
+    margin-left: 10px;
+    text-decoration: none; /* ลบขีดเส้นใต้ลิงก์ */
+    color: white; /* ตั้งค่าสีตามต้องการ */
+    font-size: 16px;
+}
+
+/* Navigation Bar - Fixed at Top */
+nav {
+    background: #3498db;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between; /* Space between items */
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 10px 15px;
+    margin: 0 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/*LOGO */
+.logoText{
+    color: white;
+    font-size: 2rem;
+    font-weight: bolder;
+}
