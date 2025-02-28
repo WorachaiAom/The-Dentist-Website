@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "route": "^0.2.5",
+    "sqlite3": "^5.1.7"
   }
 }

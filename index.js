@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
+const sqlite3 = require('sqlite3').verbose();
 
 app.use(express.static("public"));
 
@@ -10,18 +11,13 @@ app.set("view engine", "ejs");
 // Middleware to serve static files
 app.use(express.static("public"));
 
-// Home route using EJS
+// Route
 app.get("/", (req, res) => {
     res.render("homepage");
 });
 
 app.get("/homepage", (req, res) => {
     res.render("homepage");
-});
-
-// History 
-app.get("/History", (req, res) => {
-    res.render("history");
 });
 
 // Start the server
