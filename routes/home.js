@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
+const {db} = require('../database/database');
 
 router.get('/', (req, res) => {
-  const username = req.cookies.username;
-  if (!username) {
-    return res.redirect('/login');
-  }
-  res.render('home', { username });
+  const cardService = 'SELECT name, description FROM services';
+  db.all(cardService, [], (err, rows) => {
+    if (err) {
+      console.error('Error fetching users:', err.message);
+      return res.status(500).send('Error fetching users');
+    }
+    res.render('homepage', {data: rows});
+  })
 });
 
 router.get('/users', (req, res) => {

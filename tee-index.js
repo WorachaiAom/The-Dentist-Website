@@ -16,8 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', authRoutes);
-app.use('/home', homeRoutes);
+app.use('/auth', authRoutes);
+app.use('/homepage', homeRoutes);
 app.use('', homeRoutes);
 app.use('/history', hisRoutes);
 
@@ -26,13 +26,13 @@ checkDatabaseConnection()
     console.log(message);
 
     // เริ่มต้นเส้นทาง (routes)
-    app.use('/', authRoutes);
-    app.use('/home', homeRoutes);
+    app.use('/auth', authRoutes);
+    app.use('/homepage', homeRoutes);
     app.use('/history', hisRoutes);
 
     const PORT = process.env.PORT || 80;
     app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Server is running on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
