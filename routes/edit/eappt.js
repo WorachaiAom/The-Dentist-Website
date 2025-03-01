@@ -12,8 +12,7 @@ router.get('/', (req, res) => {
             state.status AS appointment_status,
             state.id AS state_id,
             services.name AS service_name,
-            appointment.date,
-            appointment.note
+            appointment.date
         FROM appointment
         JOIN customers ON appointment.customer_id = customers.id
         JOIN state ON appointment.state_id = state.id
