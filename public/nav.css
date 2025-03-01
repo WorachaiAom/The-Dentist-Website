@@ -46,6 +46,14 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* username */
+.username{
+    font-size: large;
+    font-weight: bolder;
+    color: white;
+
+}
+
 /*LOGO */
 .logoText{
     color: white;

@@ -97,13 +97,6 @@ html, body {
     transform: translateY(-5px);
 }
 
-.username{
-    font-size: large;
-    font-weight: bolder;
-    color: white;
-    
-}
-
 /* Footer - Fixed at Bottom */
 footer {
     background-color: #262627;
