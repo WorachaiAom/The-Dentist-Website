@@ -59,7 +59,7 @@ router.get("/", (req, res) => {
             console.error("Error fetching appointment history:", err.message);
             return res.status(500).send("Database error");
         }
-        res.render("histo/history", { appointments: rows });
+        res.render("histo/history", { appointments: rows , username});
     });
 });
 
