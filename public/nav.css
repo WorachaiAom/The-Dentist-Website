@@ -4,7 +4,7 @@
     align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
     justify-content: flex-end; /* ชิดขวา */
     white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
-    gap: 15px;
+    gap: 10px;
 }
 .bookshelf img {
     height: 1cm;
@@ -66,19 +66,12 @@ nav a:hover {
     display: none;
     position: absolute;
     right: 0;
-    background-color: white; /* ✅ สีพื้นหลังปกติ */
+    background-color: white;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
     border-radius: 5px;
     overflow: hidden;
-    transition: background-color 0.3s ease;  /* ✅ เพิ่ม transition */
-}
-
-/* แสดง dropdown menu เมื่อ hover */
-.dropdown:hover .dropdown-content {
-    display: block;
-    width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 /* สไตล์ของเมนู */
@@ -92,29 +85,28 @@ nav a:hover {
     transition: background-color 0.3s ease;
 }
 
-/* เปลี่ยนสีพื้นหลังของตัวเลือกเมื่อ hover */
+/* เปลี่ยนสีพื้นหลังเมื่อ hover */
 .dropdown-content a:hover {
-    background-color: #e0e0e0; /* ✅ เปลี่ยนสีพื้นหลังของตัวเลือก */
+    background-color: #f1f1f1;
 }
 
-.dropdown-content:hover {
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
+/* แสดง dropdown menu เมื่อ hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+    width: 100%;
 }
-
 
 .dropdown-username {
-    padding: 10px 15px;  /* ✅ เพิ่ม padding */
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent; /* ✅ สีพื้นหลังเริ่มต้น */
+    background-color: transparent;
     border-radius: 5px;
     transition: all 0.3s ease-in-out;
     width: 100%;
 }
 
-/* เปลี่ยนสีพื้นหลังเมื่อ hover */
 .dropdown-username:hover {
     background: rgba(255, 255, 255, 0.3);
     cursor: pointer;
@@ -123,12 +115,7 @@ nav a:hover {
 /* ปรับแต่ง username */
 .username {
     cursor: pointer;
-    margin: 0;
-    font-size: large;
-    font-weight: bolder;
+    font-size: 18px;
     color: white;
+    margin: 0;
 }
-
-
-
-
