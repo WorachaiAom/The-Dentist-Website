@@ -30,12 +30,14 @@ router.get('/', (req, res) => {
                 state.status AS appointment_status,
                 state.id AS state_id,
                 services.name AS service_name,
-                appointment.date
+                appointment.date,
+                employees.fname || ' ' || employees.sname AS provider_name
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id
             JOIN state ON appointment.state_id = state.id
-            JOIN employees ON appointment.employee_id = employees.id
+            JOIN employees ON appointment.service_id = services.id
             JOIN services ON appointment.service_id = services.id
+            JOIN users ON customers.id = users.id
             ORDER BY appointment.date DESC;
         `;
     };
@@ -45,7 +47,7 @@ router.get('/', (req, res) => {
             console.error("Error fetching appointment:", err.message);
             return res.status(500).send("Database error");
         }
-        res.render("edit/edit_appointment", { appointment: rows });
+        res.render("edit/edit_appointment", { appointment: rows, username });
     });
 });
 

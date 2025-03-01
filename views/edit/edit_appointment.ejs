@@ -4,12 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายการนัดหมาย</title>
     <link rel="stylesheet" href="./styles/history.css">
+    <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
+    <%- include('../nav_login') %>
     <div class="history-container">
-        <div class="header">
-            <a href="/homepage"><button class="back-button">←</button></a>
-        </div>
         <div class="header-section">
             <div class="title-section">
                 <h1 class="title">รายการนัดหมาย</h1>
@@ -32,8 +31,9 @@
                         <tr>
                             <th>บริการ</th>
                             <th>สถานะ</th>
+                            <th>ผู้ให้บริการ</th>
                             <th>วัน-เวลานัดหมาย</th>
-                            <th>ค่าบริการ</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,8 +42,9 @@
                                 <tr>
                                     <td><%= appointment.service_name %></td>
                                     <td><%= appointment.appointment_status %></td>
+                                    <td><%= appointment.provider_name %></td>
                                     <td><%= appointment.date %></td>
-                                    <td></td>
+                                    <td><button>แก้ไข</button><button>ยกเลิก</button></td>
                                 </tr>
                             <% }; %>
                         <% }); %>

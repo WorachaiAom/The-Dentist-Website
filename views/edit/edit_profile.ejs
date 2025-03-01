@@ -6,18 +6,17 @@
     <title>บัญชีผู้ใช้</title>
     <link rel="stylesheet" href="../styles/editacct.css">
     <link rel="stylesheet" href="../styles/history.css">
+    <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
-    <div class="header">
-        <a href="/homepage"><button class="back-button">←</button></a>
-    </div> 
+    <%- include('../nav_login') %>
     <div class="container">
         <div class="user-info-card">
             <h2 class="title">บัญชีผู้ใช้</h2>
 
             <div class="info-row">
                 <span class="label">ชื่อผู้ใช้</span>
-                <span class="value" id="usernameDisplay"><%= username %></span>   <!-- ดึงจาก database -->
+                <span class="value" id="usernameDisplay"><%= ausername %></span>   <!-- ดึงจาก database -->
                 <i class="edit-icon" onclick="openEditPopup('username')">แก้ไข</i>
             </div>
 
