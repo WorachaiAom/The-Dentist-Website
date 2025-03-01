@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="/styles/style_login-register.css">
+</head>
+<body>
+  <div class="container">
+    <div class="register-container center">
+      <div class="register-card text-center">
+        <h2 className="register-title">เข้าสู่ระบบ</h2>
+        <form action="/login" method="POST">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+              placeholder="ชื่อผู้ใช้"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+              placeholder="รหัสผ่าน"
+            />
+          </div>
+          <button type="submit" class="register-button">เข้าสู่ระบบ</button>
+        </form>
+        <div class="text-center mt-3">
+          <p>ไม่มีบัญชี? <a href="/register">ลงทะเบียน</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
