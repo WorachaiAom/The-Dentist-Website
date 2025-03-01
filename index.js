@@ -1,27 +1,42 @@
-const express = require("express");
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const authRoutes = require('./routes/auth/auth');
+const homeRoutes = require('./routes/home');
+const hisRoutes = require('./routes/his/histo');
+const { checkDatabaseConnection } = require('./database/database');
+
 const app = express();
-const PORT = process.env.PORT || 80;
-const sqlite3 = require('sqlite3').verbose();
 
-app.use(express.static("public"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Set EJS as the view engine
-app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to serve static files
-app.use(express.static("public"));
+// กำหนดเส้นทาง (routes)
+app.use('/auth', authRoutes);
+app.use('/', homeRoutes);
+app.use('/history', hisRoutes);
 
-// Route
-app.get("/", (req, res) => {
-    res.render("homepage");
+// Route สำหรับออกจากระบบ
+app.get('/logout', (req, res) => {
+    res.clearCookie('username');
+    res.redirect('/');
 });
 
-app.get("/homepage", (req, res) => {
-    res.render("homepage");
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-
+// ตรวจสอบการเชื่อมต่อฐานข้อมูลก่อนเริ่มเซิร์ฟเวอร์
+checkDatabaseConnection()
+    .then((message) => {
+        console.log(message);
+        const PORT = process.env.PORT || 80;
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error(err.message);
+        process.exit(1);
+    });
