@@ -61,7 +61,7 @@ router.post("/register", async (req, res) => {
 
                 // Commit the transaction if both queries succeed
                 db.run("COMMIT");
-                res.redirect("/login");
+                res.redirect("/auth/login");
               }
             );
 
@@ -112,7 +112,7 @@ router.post("/login", (req, res) => {
         res.cookie("role", user.role);
       }else{
         res.cookie("role", "customer");}
-      res.redirect("/home");
+      res.redirect("/");
     }
   );
 });

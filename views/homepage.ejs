@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
-    <%- include("nav") %>
+
+    <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
+    <%- include(navTemplate) %>
 
     <div class="container">
         <section class="hero">
@@ -20,12 +22,12 @@
         <section class="services">
             <h1>บริการของพวกเรา</h1>
             <div class="grid">
-                    <% data.forEach(item => { %>
-                        <div class="service-card">
-                            <h2><%= item.name %></h2>
-                            <%= item.description %>
-                        </div>
-                    <% }); %>
+                <% data.forEach(item => { %>
+                    <div class="service-card">
+                        <h2><%= item.name %></h2>
+                        <%= item.description %>
+                    </div>
+                <% }); %>
             </div>
         </section>
     </div>
