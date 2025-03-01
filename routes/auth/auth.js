@@ -111,8 +111,9 @@ router.post("/login", (req, res) => {
       if (user.role_id){
         res.cookie("role", user.role);
       }else{
-        res.cookie("role", "customer");}
-      res.redirect("/home");
+        res.cookie("role", "customer");
+      }
+      res.redirect("/homepage");
     }
   );
 });

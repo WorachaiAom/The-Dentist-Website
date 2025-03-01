@@ -8,7 +8,9 @@ body,
   overflow: hidden;
   background-color: #f0f4f8;
 }
-
+a {
+  text-decoration: none;
+}
 .history-container {
   display: flex;
   flex-direction: column;
