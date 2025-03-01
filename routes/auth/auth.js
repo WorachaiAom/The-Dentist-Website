@@ -113,7 +113,7 @@ router.post("/login", (req, res) => {
       }else{
         res.cookie("role", "customer");
       }
-      res.redirect("/home");
+      res.redirect("/homepage");
     }
   );
 });
