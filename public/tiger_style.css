@@ -73,7 +73,7 @@ html, body {
 }
 
 .services h2 {
-    font-size: 2.5rem;
+    font-size: 20px;
     color: #333;
     margin-bottom: 20px;
 }
@@ -104,9 +104,6 @@ footer {
     padding: 20px;
     text-align: center;
     width: 100%;
-    position: fixed;  /* Stays fixed */
-    bottom: 0;        /* Stick to the bottom */
-    left: 0;
     display: grid;
     gap: 20px; /* Add spacing between elements */
     box-sizing: border-box;  /* Prevents footer from going outside the page */
