@@ -3,10 +3,11 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   const username = req.cookies.username;
+  const role = req.cookies.role;
   if (!username) {
     return res.redirect('/login');
   }
-  res.render('home', { username });
+  res.render('home', { username, role });
 });
 
 router.get('/users', (req, res) => {

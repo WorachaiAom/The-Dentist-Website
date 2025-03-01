@@ -1,29 +1,27 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
     <link rel="stylesheet" href="../styles/history.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
+
 <body>
     <div class="history-container">
-        
+
         <div class="header">
             <button class="back-button">←</button>
         </div>
 
-        
         <div class="header-section">
             <div class="title-section">
                 <h1 class="title">ประวัติการเข้าใช้</h1>
             </div>
             <div class="search-container">
                 <div class="search-box-wrapper">
-                    <input
-                        type="text"
-                        placeholder="search"
-                        class="search-input"
-                    >
+                    <input type="text" placeholder="search" class="search-input">
                 </div>
             </div>
         </div>
@@ -33,31 +31,67 @@
                 <table class="history-table">
                     <thead>
                         <tr>
-                            <th>บริการ</th>
+                            <th>ผู้เข้ารับบริการ</th>
                             <th>สถานะ</th>
                             <th>ผู้ให้บริการ</th>
                             <th>วันที่ได้รับบริการ</th>
                             <th>บันทึกเพิ่มเติม</th>
-                            <th>ค่าบริการ</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% appointments.forEach(appointment => { %>
+                        <% appointments.forEach(appointment=> { %>
                             <tr>
-                                <td><%= appointment.service_name %></td>
-                                <td><%= appointment.appointment_status %></td>
-                                <td><%= appointment.provider_name %></td>
-                                <td><%= appointment.date %></td>
-                                <td><%= appointment.note %></td>
+                                <td>
+                                    <%= appointment.customer_name %>
+                                </td>
+                                <td>
+                                    <%= appointment.appointment_status %>
+                                </td>
+                                <td>
+                                    <%= appointment.provider_name %>
+                                </td>
+                                <td>
+                                    <%= appointment.date %>
+                                </td>
+                                <td>
+                                    <%= appointment.service_name %>
+                                </td>
                             </tr>
-                        <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
     <center>
-        <button class="button-download">ดาวน์โหลด</button>
+        <button class="button-download" onclick="downloadExcel()">ดาวน์โหลด</button>
     </center>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const table = document.querySelector('.history-table tbody');
+            const rows = table.getElementsByTagName('tr');
+
+            searchInput.addEventListener('input', function () {
+                const query = searchInput.value.toLowerCase();
+                Array.from(rows).forEach(row => {
+                    const serviceCell = row.cells[4];
+                    const serviceName = serviceCell.textContent.toLowerCase();
+                    row.style.display = serviceName.includes(query) ? '' : 'none';
+                });
+            });
+        });
+
+        function downloadExcel() {
+        let table = document.querySelector(".history-table");
+        let wb = XLSX.utils.book_new();
+        let ws = XLSX.utils.table_to_sheet(table);
+
+        XLSX.utils.book_append_sheet(wb, ws, "History");
+        XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
+    }
+    </script>
 </body>
+
 </html>
