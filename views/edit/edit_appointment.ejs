@@ -8,7 +8,7 @@
 <body>
     <div class="history-container">
         <div class="header">
-            <a href="/home"><button class="back-button">←</button></a>
+            <a href="/homepage"><button class="back-button">←</button></a>
         </div>
         <div class="header-section">
             <div class="title-section">
@@ -37,7 +37,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% appointments.forEach(appointment => { %>
+                        <% appointment.forEach(appointment => { %>
                             <% if (appointment.state_id == 1 || appointment.state_id == 2) { %>
                                 <tr>
                                     <td><%= appointment.service_name %></td>
