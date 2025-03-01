@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dental Clinic</title>
-    <link rel="stylesheet" href="./tiger_style.css">
-    <link rel="stylesheet" href="./nav.css">
+    <link rel="stylesheet" href="../tiger_style.css">
+    <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
     <%- include("nav") %>
@@ -18,19 +18,22 @@
         </section>
 
         <section class="services">
-            <h2>บริการของพวกเรา</h2>
+            <h1>บริการของพวกเรา</h1>
             <div class="grid">
-                <div class="service-card"><h3>🦷 Teeth Cleaning</h3><p>Professional teeth cleaning for a healthy smile.</p></div>
-                <div class="service-card"><h3>🛠 Cavity Filling</h3><p>Safe and effective cavity treatments.</p></div>
-                <div class="service-card"><h3>✨ Teeth Whitening</h3><p>Get a brighter, whiter smile with our whitening services.</p></div>
+                    <% data.forEach(item => { %>
+                        <div class="service-card">
+                            <h2><%= item.name %></h2>
+                            <%= item.description %>
+                        </div>
+                    <% }); %>
             </div>
         </section>
-
-        <footer>
-            <h2>เกี่ยวกับเรา</h2>
-            <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
-            <p><strong>+1 234 567 890</strong></p>
-        </footer>
     </div>
+
+    <footer>
+        <h2>เกี่ยวกับเรา</h2>
+        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+        <p><strong>+1 234 567 890</strong></p>
+    </footer>
 </body>
 </html>
