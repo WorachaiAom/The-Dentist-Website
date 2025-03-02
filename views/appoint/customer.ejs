@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/app_customer.css">
+    <link rel="stylesheet" href="../nav.css">
+    <title>Create Appointment</title>
+</head>
+<%- include('../nav_login') %>
+<body>
+    <div id="calendar-container">
+        <div id="calendar_header">
+            <button id="previous_button" class="traverse_button" onclick="previous_month()">Previous</button>
+            <div id="month_name">monthnamedefault</div>
+            <button id="next_button" class="traverse_button" onclick="next_month()">Next</button>
+        </div>
+        <table id="date_table">
+            <tr id="days_name">
+                <td>อา.</td>
+                <td>จ.</td>
+                <td>อ.</td>
+                <td>พ.</td>
+                <td>พฤ.</td>
+                <td>ศ.</td>
+                <td>ส.</td>
+            </tr>
+        </table>
+    </div>
+    <div id="period-container">
+        <div>เลือกช่วงเวลา</div>
+        <div id="period_date"></div>
+        <form id="period_table" action="/appointment/appointreq">
+        </form>
+    </div>
+</body>
+<script>
+    const current_date = new Date();
+    current_date.setHours(7,0,0,0);
+    const month_list = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน",
+    "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+    ];
+
+    function update_calendar(date){
+        // Create a copy to work with
+        let displayDate = new Date(date);
+        
+        // Setup month's name using the copied date
+        document.getElementById("month_name").innerText = month_list[displayDate.getMonth()] + " " + displayDate.getFullYear();
+
+        // Set the copy's date to the first day of the month
+        displayDate.setDate(1);
+        // Move displayDate back to the previous Sunday
+        while(displayDate.getDay() != 0){
+            displayDate.setDate(displayDate.getDate()-1);
+        }
+
+        // Define table and reset it to default.
+        let table = document.getElementById("date_table");
+        table.innerHTML = `<tr id="days_name">
+                                <td>อา.</td>
+                                <td>จ.</td>
+                                <td>อ.</td>
+                                <td>พ.</td>
+                                <td>พฤ.</td>
+                                <td>ศ.</td>
+                                <td>ส.</td>
+                            </tr>`;
+
+        // Loop to create Date buttons with Date value.
+        for(let i=1;;i++){
+            if(displayDate.getMonth() == (date.getMonth()+1)%12) break;
+            let row = table.insertRow(i);
+            for(let j=0;j<7;j++){
+                let cell = row.insertCell(j);
+                let date_button = document.createElement("button");
+                date_button.value = displayDate.toISOString().split("T")[0];
+                date_button.innerText = displayDate.getDate();
+                console.log(displayDate.toISOString() + displayDate.getDate())
+                date_button.classList.add("date_button");
+                let compDate = new Date();
+                compDate.setHours(7,0,0,0);
+                if(displayDate.getTime() == compDate.getTime()) {
+                    date_button.classList.add("checked");
+                    update_period(date_button.value);
+                }
+                else if(displayDate.getTime() < compDate.getTime()) {
+                    date_button.classList.add("past");
+                    date_button.inert = true;
+                }
+                date_button.onclick = () => clicking(date_button, date_button.value);
+                cell.appendChild(date_button);
+                displayDate.setDate(displayDate.getDate()+1);
+            }
+        }
+    }
+
+
+    function next_month(){
+        current_date.setMonth(current_date.getMonth()+1);
+        update_calendar(current_date);
+    }
+    function previous_month(){
+        current_date.setMonth(current_date.getMonth()-1);
+        update_calendar(current_date);
+    }
+    update_calendar(current_date);
+
+
+
+    function update_period(date_value){
+        const period_date = document.getElementById("period_date");
+        const period_table = document.getElementById("period_table");
+        period_table.innerHTML = "";
+        period_date.innerText = date_value;
+        let start = 9;
+        let end = 22;
+        for(let i=start;i<=end;i++){
+            let radio_period = document.createElement("input");
+            let label = document.createElement("label");
+            radio_period.type = "radio";
+            radio_period.name = "period_radio";
+            radio_period.value = date_value + " " + i.toString()+":00:00"
+            radio_period.id = i.toString();
+            label.setAttribute("for", i.toString());
+            label.innerText = i.toString()+":00 น."
+            period_table.appendChild(radio_period);
+            period_table.appendChild(label);
+        }
+        let submit = document.createElement("input");
+        submit.type = "submit";
+        submit.value = "ตกลง";
+        period_table.appendChild(submit);
+    }
+
+    function clicking(button, date){
+        const buttons = document.querySelectorAll("button");
+
+        // Loop through each button and remove a specific class
+        buttons.forEach(button => {
+            button.classList.remove("checked");
+        });
+        button.classList.add("checked");
+        update_period(date);
+    }
+</script>
+</html>

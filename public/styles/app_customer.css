@@ -1,0 +1,47 @@
+#calendar-container {
+    margin-top: 20vh;
+}
+
+.date_button {
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+    width: 100%;
+    border-radius: 0;
+}
+
+.traverse_button {
+    color: white;
+    background-color: #3498db;
+    width: 20%;
+    height: 100%;
+}
+
+.past {
+    background-color: rgb(122, 122, 122);
+}
+
+.checked {
+    background-color: #6dc5ff;
+}
+
+table {
+    border-spacing: 10px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #3498db;
+    box-shadow: 10px 10px 5px gray;
+}
+
+#calendar-container {
+    margin-left: 10vh;
+    margin-right: 10vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#calendar_header {
+    height: 5vh;
+    margin-bottom: 1vh;
+    display: flex;
+    justify-content: space-around;
+}
