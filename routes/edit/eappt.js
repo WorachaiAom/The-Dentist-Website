@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
     const role = req.cookies.role;
     
     if (!username) {
-        return res.status(401).send("Unauthorized");
+        return res.redirect("/auth/login");
     }
     
     let sql;

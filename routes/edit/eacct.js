@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     const role = req.cookies.role;
 
     if (!username) {
-        return res.status(401).send("Unauthorized");
+        return res.redirect("/auth/login");
     }
 
     let sql;
@@ -187,6 +187,7 @@ router.delete('/delete-account', async (req, res) => {
         res.json({ success: true, message: 'บัญชีถูกลบเรียบร้อยแล้ว' });
     } catch (err) {
         console.error(err);
+        console.log("KUYRAIMAEYED");
         await new Promise((resolve) => db.run("ROLLBACK", () => resolve()));
         res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการลบบัญชี' });
     }
