@@ -6,10 +6,11 @@
     padding-top: 2vh;
     padding-bottom: 2vh;
     width: 100%;
-    border-radius: 0;
+    border-radius: 5px;
 }
 
 .traverse_button {
+    border-radius: 10px;
     color: white;
     background-color: #3498db;
     width: 20%;
@@ -44,4 +45,30 @@ table {
     margin-bottom: 1vh;
     display: flex;
     justify-content: space-around;
+}
+
+#period-container {
+    margin-top: 5vh;
+    margin-left: 30vw;
+    margin-right: 30vw;
+    border-style: solid;
+    border-color: #3498db;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px gray;
+}
+
+#period_table {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 5px 0;
+}
+.period_item{
+    flex: 1 1 calc(50% - 10px);
+}
+#submitbutton {
+    margin: 10px;
+    margin-top: 30px;
+    width: 100%;
+    height: 30px;
 }

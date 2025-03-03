@@ -41,6 +41,7 @@
                             <th>ผู้ให้บริการ</th>
                             <th>วันที่ได้รับบริการ</th>
                             <th>บริการ</th>
+                            <th>ตัวเลือก</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,6 +61,12 @@
                                 </td>
                                 <td>
                                     <%= appointment.service_name %>
+                                </td>
+                                <td>
+                                    <div class="option-container">
+                                        <button class="confirm_appointment_button" value="<%= appointment.id %>" onclick="confirm_appointment(this.value)">ยืนยันการลงจอง</button>
+                                        <button class="denied_appointment_button" value="<%= appointment.id %>" onclick="denied_appointment(this.value)">ยกเลิกการลงจอง</button>
+                                    </div>
                                 </td>
                             </tr>
                             <% }); %>
@@ -83,6 +90,19 @@
                 });
             });
         });
+
+        function confirm_appointment(id){
+            fetch("appointment/confirm", {method: "POST",
+            headers: {
+            'Content-Type': 'application/json'},
+            body: JSON.stringify({appointment_id: id})}).catch(error => console.log("Cannot fetch:", error));
+        }
+        function denied_appointment(id){
+            fetch("appointment/denied", {method: "POST",
+            headers: {
+            'Content-Type': 'application/json'},
+            body: JSON.stringify({appointment_id: id})}).catch(error => console.log("Cannot fetch:", error));
+        }
     </script>
 </body>
 
