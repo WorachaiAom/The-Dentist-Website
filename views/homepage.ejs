@@ -16,14 +16,19 @@
         <section class="hero">
             <h1>การดูแลทางทันตกรรมที่คุณวางใจได้</h1>
             <p>จองนัดหมายวันนี้เพื่อรอยยิ้มที่สดใสยิ่งขึ้น!</p>
-            <button class="btn">ดูข้อมูลเพิ่มเติม!</button>
+            <button class="btn" id="aboutUsBtn">ดูข้อมูลเพิ่มเติม!</button>
         </section>
 
         <section class="services">
             <h1>จองบริการของพวกเรา</h1>
-            <div class="grid">
+            <div class="search-container">
+                <input type="text" id="searchService" placeholder="ค้นหาบริการ...">
+                <button id="sortById">เรียงตาม ID</button>
+                <button id="sortByName">เรียงตามชื่อ</button>
+            </div>
+            <div class="grid" id="serviceGrid">
                 <% data.forEach(item => { %>
-                    <div class="service-card">
+                    <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>">
                         <h2><%= item.name %></h2>
                         <%= item.description %>
                     </div>
@@ -38,4 +43,65 @@
         <p><strong>+1 234 567 890</strong></p>
     </footer>
 </body>
+
+<script>
+
+    //Test click and show card ID
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".service-card").forEach(card => {
+            card.addEventListener("click", function () {
+                const serviceId = this.getAttribute("data-id");
+                alert("Service ID: " + serviceId);
+            });
+        });
+    });
+
+    // เปลี่ยนไปยังหน้า aboutus.ejs
+    document.getElementById("aboutUsBtn").addEventListener("click", function () {
+        window.location.href = "/aboutus"; 
+    });
+
+    //Search Bar
+    document.getElementById("searchService").addEventListener("input", function () {
+        let searchValue = this.value.toLowerCase();
+        let services = document.querySelectorAll(".service-card");
+
+        services.forEach(card => {
+            let serviceName = card.getAttribute("data-name");
+            if (serviceName.includes(searchValue)) {
+                card.style.display = "block"; // แสดงบริการที่ตรงกับค้นหา
+            } else {
+                card.style.display = "none"; // ซ่อนบริการที่ไม่ตรง
+            }
+        });
+    });
+
+    //Sorting now have sort{id, name}
+    function sortServices(criteria) {
+        let serviceGrid = document.getElementById("serviceGrid");
+        let services = Array.from(serviceGrid.children);
+
+        services.sort((a, b) => {
+            if (criteria === "id") {
+                return Number(a.getAttribute("data-id")) - Number(b.getAttribute("data-id"));
+            } else if (criteria === "name") {
+                return a.getAttribute("data-name").localeCompare(b.getAttribute("data-name"));
+            }
+        });
+
+        serviceGrid.innerHTML = ""; // ล้างการ์ดเดิม
+        services.forEach(service => serviceGrid.appendChild(service)); // ใส่การ์ดใหม่ตามลำดับ
+    }
+
+    document.getElementById("sortById").addEventListener("click", function () {
+        sortServices("id");
+    });
+
+    document.getElementById("sortByName").addEventListener("click", function () {
+        sortServices("name");
+    });
+
+</script>
+
+
 </html>

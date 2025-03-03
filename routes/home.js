@@ -4,7 +4,7 @@ const { db } = require('../database/database');
 
 // แสดงหน้า Homepage
 router.get('/', (req, res) => {
-    const cardService = 'SELECT name, description FROM services';
+    const cardService = 'SELECT id, name, description FROM services';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
 
     db.all(cardService, [], (err, rows) => {
@@ -46,6 +46,11 @@ router.post('/login', (req, res) => {
         // เปลี่ยนเส้นทางไปยังหน้า Homepage
         res.redirect('/');
     });
+});
+
+router.get('/aboutus', (req, res) => {
+    const username = req.cookies.username;
+    res.render('aboutus', {username});
 });
 
 module.exports = router;

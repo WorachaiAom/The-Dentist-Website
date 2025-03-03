@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id
             JOIN state ON appointment.state_id = state.id
-            JOIN employees ON appointment.service_id = services.id
+            JOIN employees ON appointment.employee_id = employees.id
             JOIN services ON appointment.service_id = services.id
             JOIN users ON customers.id = users.id
             WHERE state.status = 'สำเร็จแล้ว' AND users.username = ?
@@ -47,7 +47,7 @@ router.get("/", (req, res) => {
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id
             JOIN state ON appointment.state_id = state.id
-            JOIN employees ON appointment.service_id = services.id
+            JOIN employees ON appointment.employee_id = employees.id
             JOIN services ON appointment.service_id = services.id
             WHERE state.status = 'สำเร็จแล้ว'
             ORDER BY appointment.date DESC;

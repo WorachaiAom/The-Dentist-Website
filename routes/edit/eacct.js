@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
                     users.username = ?;
             `;
         };
-        db.get(query, [username], (err, user) => {
+        db.get(sql, [username], (err, user) => {
             if (err || !user) {
                 return res.status(500).send("ไม่พบข้อมูลผู้ใช้");
             }

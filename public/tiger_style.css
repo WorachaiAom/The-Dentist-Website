@@ -86,7 +86,7 @@ html, body {
 }
 
 .service-card {
-    background: white;
+    background: rgb(236, 250, 254);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -109,3 +109,30 @@ footer {
     box-sizing: border-box;  /* Prevents footer from going outside the page */
 }
 
+/*Search Section*/
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#searchService, #sortById, #sortByName {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#sortById, #sortByName {
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+#sortById:hover, #sortByName:hover {
+    background-color: #0056b3;
+}
