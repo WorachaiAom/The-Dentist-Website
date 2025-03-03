@@ -6,6 +6,7 @@ const homeRoutes = require('./routes/home');
 const hisRoutes = require('./routes/his/histo');
 const eapptRoutes = require('./routes/edit/eappt');
 const eacctRoutes = require('./routes/edit/eacct');
+const appointRoutes = require('./routes/app/appoint')
 const { checkDatabaseConnection } = require('./database/database');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/', homeRoutes);
 app.use('/history', hisRoutes);
 app.use('/editappt', eapptRoutes);
 app.use('/editacct', eacctRoutes);
+app.use('/appointment', appointRoutes);
 
 // Route สำหรับออกจากระบบ
 app.get('/logout', (req, res) => {

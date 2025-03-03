@@ -10,7 +10,7 @@ router.get("/", async(req, res) => {
   try {
       await checkDatabaseConnection();
       //TODO: More efficiency to identify user's role.
-      if(user_role == "customer" && false){
+      if(user_role == "customer"){
         res.render("appoint/customer", { username });
       }else{
         let sql = `
