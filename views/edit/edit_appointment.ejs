@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการนัดหมาย</title>
+    <link rel="stylesheet" href="./styles/history.css">
+    <link rel="stylesheet" href="../nav.css">
+</head>
+<body>
+    <%- include('../nav_login') %>
+    <div class="history-container">
+        <div class="header-section">
+            <div class="title-section">
+                <h1 class="title">รายการนัดหมาย</h1>
+            </div>
+            <div class="search-container">
+                <div class="search-box-wrapper">
+                    <input
+                        type="text"
+                        placeholder="search"
+                        class="search-input"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <div class="table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>บริการ</th>
+                            <th>สถานะ</th>
+                            <th>ผู้ให้บริการ</th>
+                            <th>วัน-เวลานัดหมาย</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% appointment.forEach(appointment => { %>
+                            <% if (appointment.state_id == 1 || appointment.state_id == 2) { %>
+                                <tr>
+                                    <td><%= appointment.service_name %></td>
+                                    <td><%= appointment.appointment_status %></td>
+                                    <td><%= appointment.provider_name %></td>
+                                    <td><%= appointment.date %></td>
+                                    <td class="action-buttons">
+                                        <button class="button-edit">แก้ไข</button>
+                                        <button class="button-cancel" onclick="showCancelConfirmation('<%= appointment.id %>')">ยกเลิก</button>
+                                    </td>
+                                </tr>
+                            <% }; %>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Pop-up -->
+    <div id="cancelPopup" class="popup">
+        <div class="popup-content">
+            <p>คุณแน่ใจหรือว่าต้องการ<br>ยกเลิกการนัดหมายนี้?</p>
+            <div class="popup-buttons">
+                <button id="confirmCancel" class="popup-button">ยืนยัน</button>
+                <button id="closePopup" class="popup-button">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appointmentIdToDelete = null;
+
+        function showCancelConfirmation(appointmentId) {
+            appointmentIdToDelete = appointmentId;
+            document.getElementById('cancelPopup').style.display = 'flex';
+        }
+
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.getElementById('cancelPopup').style.display = 'none';
+        });
+
+        document.getElementById('confirmCancel').addEventListener('click', function() {
+            fetch('/editappt/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ appointmentId: appointmentIdToDelete })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Appointment deleted successfully!');
+                location.reload();  // รีโหลดหน้าใหม่ทันที
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
