@@ -16,20 +16,14 @@
 
             <div class="info-row">
                 <span class="label">ชื่อผู้ใช้</span>
-                <span class="value" id="usernameDisplay"><%= ausername %></span>
+                <span class="value" id="usernameDisplay"><%= ausername %></span>   <!-- ดึงจาก database -->
                 <i class="edit-icon" onclick="openEditPopup('username')">แก้ไข</i>
             </div>
 
             <div class="info-row">
-                <span class="label">ชื่อจริง</span>
-                <span class="value" id="firstnameDisplay"><%= fname %></span>
-                <i class="edit-icon" onclick="openEditPopup('fname')">แก้ไข</i>
-            </div>
-
-            <div class="info-row">
-                <span class="label">นามสกุล</span>
-                <span class="value" id="surnameDisplay"><%= sname %></span>
-                <i class="edit-icon" onclick="openEditPopup('sname')">แก้ไข</i>
+                <span class="label">ชื่อ-นามสกุล</span>
+                <span class="value" id="fullnameDisplay"><%= fname %> <%= sname %></span>   <!-- ดึงจาก database -->
+                <i class="edit-icon" onclick="openEditPopup('fullname')">แก้ไข</i>
             </div>
 
             <div class="info-row">
@@ -39,7 +33,6 @@
             </div>
 
             <button class="confirm-btn" onclick="confirmChanges()">ยืนยัน</button>
-            <button class="delete-btn" onclick="confirmDelete()">ลบบัญชี</button>
         </div>
     </div>
 
@@ -67,58 +60,53 @@
         </div>
     </div>
 
-    <!-- Pop-up ยืนยันการลบบัญชี -->
-    <div class="delete-popup-overlay" id="deleteConfirmPopup">
-        <div class="delete-popup-box">
-            <h3>ยืนยันการลบบัญชี</h3>
-            <p>คุณต้องการลบบัญชีของคุณจริงๆ หรือไม่? การกระทำนี้ไม่สามารถย้อนกลับได้</p>
-            <div class="delete-popup-buttons">
-                <button class="delete-popup-cancel" onclick="closeDeleteConfirmPopup()">ยกเลิก</button>
-                <button class="delete-popup-confirm" onclick="deleteAccount()">ยืนยัน</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        let currentField = '';
-        let tempData = {};
+        let currentField = '';      // เก็บว่าแก้ไข field ไหนอยู่
+        let tempData = {};          // เก็บค่าชั่วคราวที่แก้ไข
 
+        // เปิด Pop-up ให้กรอกข้อมูลใหม่
         function openEditPopup(field) {
             currentField = field;
+
             const placeholderMap = {
                 username: 'กรอกชื่อผู้ใช้ใหม่',
-                fname: 'กรอกชื่อจริงใหม่',
-                sname: 'กรอกนามสกุลใหม่',
+                fullname: 'กรอกชื่อ-นามสกุลใหม่',
                 password: 'กรอกรหัสผ่านใหม่'
             };
+
             document.getElementById('editInput').placeholder = placeholderMap[field] || '';
-            document.getElementById('editInput').value = '';
+            document.getElementById('editInput').value = '';  // เคลียร์ค่าเดิมออก
             document.getElementById('editPopup').classList.add('active');
         }
 
+        // ปิด Pop-up กรอกข้อมูล
         function closeEditPopup() {
             document.getElementById('editPopup').classList.remove('active');
         }
 
+        // บันทึกข้อมูลที่แก้ไข (ยังไม่ยืนยัน)
         function saveEdit() {
-            const newValue = document.getElementById('editInput').value.trim();
-            if (!newValue) {
+            const newValue = document.getElementById('editInput').value;
+
+            if (newValue.trim() === '') {
                 alert('กรุณากรอกข้อมูลก่อน');
                 return;
             }
+
+            // อัปเดตหน้าจอชั่วคราว + เก็บลง tempData
             if (currentField === 'username') {
                 document.getElementById('usernameDisplay').innerText = newValue;
-            } else if (currentField === 'fname') {
-                document.getElementById('firstnameDisplay').innerText = newValue;
-            } else if (currentField === 'sname') {
-                document.getElementById('surnameDisplay').innerText = newValue;
+            } else if (currentField === 'email') {
+                document.getElementById('emailDisplay').innerText = newValue;
             } else if (currentField === 'password') {
-                document.getElementById('passwordDisplay').innerText = '********';
+                document.getElementById('passwordDisplay').innerText = '********';  // ซ่อนรหัสผ่าน
             }
+
             tempData[currentField] = newValue;
             closeEditPopup();
         }
 
+        // เปิด Pop-up ยืนยันการเปลี่ยนแปลง
         function confirmChanges() {
             let summaryText = 'คุณได้ทำการเปลี่ยนแปลงดังนี้:\n';
             let hasChanges = false;
@@ -127,16 +115,12 @@
                 summaryText += `- ชื่อผู้ใช้: ${tempData.username}\n`;
                 hasChanges = true;
             }
-            if (tempData.fname) {
-                summaryText += `- ชื่อ: ${tempData.fname}\n`;
-                hasChanges = true;
-            }
-            if (tempData.sname) {
-                summaryText += `- นามสกุล: ${tempData.sname}\n`;
+            if (tempData.email) {
+                summaryText += `- อีเมล: ${tempData.email}\n`;
                 hasChanges = true;
             }
             if (tempData.password) {
-                summaryText += `- รหัสผ่าน: ${tempData.password}\n`;
+                summaryText += `- รหัสผ่าน: (เปลี่ยนใหม่แล้ว)\n`;
                 hasChanges = true;
             }
 
@@ -149,96 +133,22 @@
             document.getElementById('confirmPopup').classList.add('active');
         }
 
+        // ปิด Pop-up ยืนยันการเปลี่ยนแปลง
         function closeConfirmPopup() {
             document.getElementById('confirmPopup').classList.remove('active');
         }
 
-        // ฟังก์ชันสำหรับเปิด Pop-up ยืนยันการลบ
-        function confirmDelete() {
-            document.getElementById('deleteConfirmPopup').classList.add('active');
-        }
-
-        // ฟังก์ชันสำหรับปิด Pop-up
-        function closeDeleteConfirmPopup() {
-            document.getElementById('deleteConfirmPopup').classList.remove('active');
-        }
-
+        // กดปุ่มยืนยันขั้นสุดท้าย (สามารถส่ง tempData ไปเซิร์ฟเวอร์ที่นี่ได้)
         function finalConfirm() {
-            const payload = {};
-            if (tempData.username) {
-                payload.username = tempData.username;
-            }
-            if (tempData.password) {
-                payload.password = tempData.password;
-            }
-            if (tempData.fname) {
-                payload.fname = tempData.fname;
-            }
-            if (tempData.sname) {
-                payload.sname = tempData.sname;
-            }
+            console.log('ส่งข้อมูล:', tempData);
+            alert('บันทึกข้อมูลเรียบร้อย!');
+            document.getElementById('confirmPopup').classList.remove('active');
 
-            fetch('/editacct/update-profile', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('บันทึกข้อมูลเรียบร้อย!');
+            // ตรงนี้สามารถใส่ fetch หรือ AJAX ส่ง tempData ไปอัปเดตในฐานข้อมูลได้
+            // เช่น fetch('/update-profile', { method: 'POST', body: JSON.stringify(tempData), headers: {'Content-Type': 'application/json'} })
 
-                    if (data.refresh) {
-                        location.reload(); // รีเฟรชหน้าเว็บใหม่ถ้ามีการเปลี่ยน username
-                    } else {
-                        if (tempData.username) {
-                            document.getElementById('usernameDisplay').innerText = tempData.username;
-                        }
-                        if (tempData.fname) {
-                            document.getElementById('firstnameDisplay').innerText = tempData.fname;
-                        }
-                        if(tempData.sname) {
-                            document.getElementById('surnameDisplay').innerText = tempData.sname;
-                        }
-                        if (tempData.password) {
-                            document.getElementById('passwordDisplay').innerText = '********';
-                        }
-                    }
-                } else {
-                    alert('เกิดข้อผิดพลาดในการบันทึก');
-                }
-            })
-            .catch(err => {
-                alert('เกิดข้อผิดพลาด: ' + err);
-            });
-
-            closeConfirmPopup();
-        }
-
-        function deleteAccount() {
-            // ส่งคำขอลบบัญชีไปยังเซิร์ฟเวอร์
-            fetch('/editacct/delete-account', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: '<%= ausername %>' }) // ส่ง username ในคำขอลบ
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('บัญชีของคุณถูกลบเรียบร้อยแล้ว');
-                    document.cookie = 'username=; Max-Age=-99999999;';  // ลบคุกกี้ username
-                    document.cookie = 'role=; Max-Age=-99999999;';  // ลบคุกกี้ role
-                    window.location.href = '/'; // เปลี่ยนเส้นทางไปยังหน้าแรก
-                } else {
-                    alert('เกิดข้อผิดพลาดในการลบบัญชี');
-                }
-            })
-            .catch(err => {
-                console.error('เกิดข้อผิดพลาด:', err);
-                alert('เกิดข้อผิดพลาดในการลบบัญชี');
-            });
-
-            closeDeleteConfirmPopup();
+            // เคลียร์ tempData หลังจากยืนยันแล้ว
+            tempData = {};
         }
     </script>
 </body>

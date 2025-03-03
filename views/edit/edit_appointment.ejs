@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -45,10 +44,7 @@
                                     <td><%= appointment.appointment_status %></td>
                                     <td><%= appointment.provider_name %></td>
                                     <td><%= appointment.date %></td>
-                                    <td class="action-buttons">
-                                        <button class="button-edit">แก้ไข</button>
-                                        <button class="button-cancel" onclick="showCancelConfirmation('<%= appointment.id %>')">ยกเลิก</button>
-                                    </td>
+                                    <td><button>แก้ไข</button><button>ยกเลิก</button></td>
                                 </tr>
                             <% }; %>
                         <% }); %>
@@ -57,47 +53,5 @@
             </div>
         </div>
     </div>
-
-    <!-- Confirmation Pop-up -->
-    <div id="cancelPopup" class="popup">
-        <div class="popup-content">
-            <p>คุณแน่ใจหรือว่าต้องการ<br>ยกเลิกการนัดหมายนี้?</p>
-            <div class="popup-buttons">
-                <button id="confirmCancel" class="popup-button">ยืนยัน</button>
-                <button id="closePopup" class="popup-button">ยกเลิก</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let appointmentIdToDelete = null;
-
-        function showCancelConfirmation(appointmentId) {
-            appointmentIdToDelete = appointmentId;
-            document.getElementById('cancelPopup').style.display = 'flex';
-        }
-
-        document.getElementById('closePopup').addEventListener('click', function() {
-            document.getElementById('cancelPopup').style.display = 'none';
-        });
-
-        document.getElementById('confirmCancel').addEventListener('click', function() {
-            fetch('/editappt/delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ appointmentId: appointmentIdToDelete })
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Appointment deleted successfully!');
-                location.reload();  // รีโหลดหน้าใหม่ทันที
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
 </body>
 </html>

@@ -126,107 +126,13 @@ a {
   text-align: left;
 }
 
-.button-group {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.button-edit, .button-cancel {
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.button-edit {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.button-edit:hover {
-  background-color: #2563eb;
-}
-
-.button-cancel {
-  background-color: #ef4444;
-  color: white;
-}
-
-.button-cancel:hover {
-  background-color: #dc2626;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;  /* เพิ่มช่องว่างระหว่างปุ่ม */
-}
-
-/* Pop-up styles */
-.popup {
-  display: none; /* ซ่อน pop-up เมื่อเริ่มต้น */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังมืด */
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* ให้ pop-up อยู่ด้านหน้าของส่วนอื่น */
-}
-
-.popup-content {
-  background-color: white;
-  padding: 20px;
+.button-download {
+  padding: 10px 20px;
+  font-size: 16px;
   border-radius: 10px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* ปรับปุ่มให้ใกล้กันมากขึ้น */
-.popup-buttons {
-  display: flex;
-  justify-content: center; /* จัดให้ปุ่มอยู่ตรงกลาง */
-  gap: 10px; /* ช่องว่างระหว่างปุ่ม */
-  margin-top: 20px;
-}
-
-.popup-button {
-  padding: 8px 16px; /* ลดขนาดปุ่มให้กระชับ */
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100px; /* ให้ปุ่มมีขนาดเท่ากัน */
-}
-
-.popup-button:hover {
-  opacity: 0.8;
-}
-
-
-#confirmCancel {
-  background-color: #3b82f6;
-  color: white;
-}
-
-#confirmCancel:hover {
-  background-color: #2563eb;
-}
-
-#closePopup {
-  background-color: #ef4444;
-  color: white;
-}
-
-#closePopup:hover {
-  background-color: #dc2626;
+  background-color: #000000;
+  color: #ffffff;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 @media (max-width: 768px) {
