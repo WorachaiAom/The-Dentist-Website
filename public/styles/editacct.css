@@ -146,3 +146,89 @@ body {
 .popup-overlay.active {
     display: flex;
 }
+
+.delete-btn {
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+
+/* Popup ยืนยันการลบบัญชี */
+.delete-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Popup สำหรับยืนยันการลบบัญชี */
+.delete-popup-box {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.delete-popup-box h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.delete-popup-box p {
+    font-size: 16px;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.delete-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-popup-cancel, .delete-popup-confirm {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 45%;
+}
+
+.delete-popup-cancel {
+    background: #e74c3c;
+    color: white;
+}
+
+.delete-popup-cancel:hover {
+    background: #c0392b;
+}
+
+.delete-popup-confirm {
+    background: #4CAF50;
+    color: white;
+}
+
+.delete-popup-confirm:hover {
+    background: #45a049;
+}
+
+/* เปิด Popup */
+.delete-popup-overlay.active {
+    display: flex;
+}
