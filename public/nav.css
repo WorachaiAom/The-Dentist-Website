@@ -4,6 +4,7 @@
     align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
     justify-content: flex-end; /* ชิดขวา */
     white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
+    gap: 10px;
 }
 .bookshelf img {
     height: 1cm;
@@ -46,17 +47,75 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/* username */
-.username{
-    font-size: large;
-    font-weight: bolder;
-    color: white;
-
-}
-
 /*LOGO */
 .logoText{
     color: white;
     font-size: 2rem;
     font-weight: bolder;
+}
+
+/*Dropdown*/
+/* ทำให้ dropdown อยู่ภายใน */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* ซ่อนเมนูโดยค่าเริ่มต้น */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+}
+
+/* สไตล์ของเมนู */
+.dropdown-content a {
+    color: black;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: block; /* ✅ ทำให้ hover ครอบคลุมเต็มช่อง */
+    text-align: left;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+/* เปลี่ยนสีพื้นหลังเมื่อ hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* แสดง dropdown menu เมื่อ hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+    width: 100%;
+}
+
+.dropdown-username {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+}
+
+.dropdown-username:hover {
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+/* ปรับแต่ง username */
+.username {
+    cursor: pointer;
+    font-size: 18px;
+    color: white;
+    margin: 0;
 }
