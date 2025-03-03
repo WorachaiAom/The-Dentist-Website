@@ -1,22 +1,57 @@
-<nav>
-    <h1 class="logoText">Manaw</h1>
-
-    <a href="/">หน้าแรก</a>
-    <a href="/history">ดูประวัติ</a>
-    <a href="/appointment">รายการนัดหมาย</a>
-
-    <div class="bookshelf">
-        <img src="/img/bell.png" alt="bell_icon">
-        
-        <!-- Username dropdown menu -->
-        <div class="dropdown">
-            <div class="dropdown-username">
-                <h1 class="username"><%= username %></h1>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <nav>
+        <h1 class="logoText">Manaw</h1>
+    
+        <a href="/">หน้าแรก</a>
+        <a href="/history">ดูประวัติ</a>
+        <a href="/appointment">รายการนัดหมาย</a>
+    
+        <div class="bookshelf">
+            <div class="dropdown">
+                <% const upcomingApps = notifications.filter(n => Math.floor((new Date(n.date) - new Date())/ (1000 * 60 * 60)) < 2); %>
+                <img src="/img/bell.png" alt="bell_icon">
+                <% if (upcomingApps.length > 0) { %>
+                  <div class="notification-badge"><%= upcomingApps.length %></div>
+                <% } %>
                 <div class="dropdown-content">
-                <a href="/editacct">ตั้งค่า</a>
-                <a href="/logout">ออกจากระบบ</a>
+                  <% upcomingApps.forEach(inrows => { %>
+                    <a href="#" 
+                       class="notification-item" 
+                       data-id="<%= inrows.id %>"
+                       onclick="markAsViewed(this)">
+                      คุณมี <%= inrows.service_name %> ตอน <%= inrows.date %>
+                    </a>
+                  <% }); %>
+                </div>
+              </div>
+            
+            <!-- Username dropdown menu -->
+            <div class="dropdown">
+                <div class="dropdown-username">
+                    <h1 class="username"><%= username %></h1>
+                </div>
+                    <div class="dropdown-content">
+                    <a href="/editacct">ตั้งค่า</a>
+                    <a href="/logout">ออกจากระบบ</a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>    
+</body>
+<script>
+    async function markAsViewed(element) {
+      element.remove(); // ลบการแจ้งเตือนจาก UI
+      const badge = document.querySelector('.notification-badge');
+      if (badge) {
+        badge.textContent = parseInt(badge.textContent) - 1;
+        if (parseInt(badge.textContent) === 0) badge.remove();
+      }
+    }
+</script>
+</html>
