@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="nav" href="">
+    <link rel="stylesheet" href="../tiger_style.css">
+
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7f6;
+        body{
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            color: #333;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
         }
 
         header {
@@ -22,6 +22,7 @@
         }
 
         header h1 {
+            padding-top: 90px;
             font-size: 2.5em;
             margin: 0;
         }
@@ -49,18 +50,6 @@
             margin-bottom: 15px;
         }
 
-        footer {
-            background-color: #0066cc;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 30px;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
         .highlight {
             color: #0066cc;
             font-weight: bold;
@@ -78,21 +67,25 @@
 
     <div class="container">
         <div class="content">
-            <h2>About This Website</h2>
+            <h2>เกี่ยวกับเว็บไซต์นี้</h2>
             <p>
                 เว็บไซต์นี้ได้รับการพัฒนาขึ้นเพื่อเป็นส่วนหนึ่งของโครงงานรายวิชา <span class="highlight">Fundamental Web Programming</span> 
                 โดยนักศึกษากลุ่มที่ 25 คณะเทคโนโลยีสารสนเทศ สาขาเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง
             </p>
+            <h3>วัตถุประสงค์ของเว็บไซต์</h3>
             <p>
-                วัตถุประสงค์ของเว็บไซต์ แพลตฟอร์มนี้ถูกออกแบบมาเพื่อ เพิ่มประสิทธิภาพในการบริหารจัดการคิวนัดหมายของคลินิกทันตกรรม 
+                แพลตฟอร์มนี้ถูกออกแบบมาเพื่อ เพิ่มประสิทธิภาพในการบริหารจัดการคิวนัดหมายของคลินิกทันตกรรม 
                 ทำให้ผู้ใช้สามารถเข้าถึงบริการได้อย่างสะดวกสบาย ลดปัญหาความล่าช้าและการรอคิวนาน โดยมุ่งเน้นการใช้งานที่ง่ายและมีประสิทธิภาพ 
                 รองรับผู้ใช้ทุกกลุ่ม
             </p>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 by King Mongkut's Institute of Technology Ladkrabang</p>
+    <footer style="bottom: 0;">
+        <h2>เกี่ยวกับเรา</h2>
+        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+        <p><strong>+1 234 567 890</strong></p>
+        <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
     </footer>
 
 </body>
