@@ -4,7 +4,7 @@ const { db } = require('../database/database');
 
 // แสดงหน้า Homepage
 router.get('/', (req, res) => {
-    const cardService = 'SELECT id, name, description FROM services';
+    const cardService = 'SELECT id, name, description FROM services WHERE id != 0';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
 
     db.all(cardService, [], (err, rows) => {
@@ -18,6 +18,13 @@ router.get('/', (req, res) => {
 
         res.render('homepage', { data: rows, username, navTemplate });
     });
+});
+
+router.get('/aboutus', (req, res) => {
+    const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
+    const navTemplate = username ? 'nav_login' : 'nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
+    res.render('aboutus', { username, navTemplate });
+
 });
 
 // จัดการการเข้าสู่ระบบ

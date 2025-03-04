@@ -20,11 +20,16 @@
         </section>
 
         <section class="services">
-            <h1>จองบริการของพวกเรา</h1>
+            <div style="margin: 50px;">
+                <h1 style="font-size: xx-large;">จองบริการของพวกเรา</h1>
+            </div>
             <div class="search-container">
                 <input type="text" id="searchService" placeholder="ค้นหาบริการ...">
-                <button id="sortById">เรียงตาม ID</button>
-                <button id="sortByName">เรียงตามชื่อ</button>
+
+                <div class="sort-options">
+                    <span class="sort-option active" data-sort="id">ค่าเริ่มต้น</span>
+                    <span class="sort-option" data-sort="name">ก-ฮ</span>
+                </div>
             </div>
             <div class="grid" id="serviceGrid">
                 <% data.forEach(item => { %>
@@ -48,12 +53,28 @@
 
     //Test click and show card ID
     document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".service-card").forEach(card => {
-            card.addEventListener("click", function () {
-                const serviceId = this.getAttribute("data-id");
-                alert("Service ID: " + serviceId);
-            });
+    document.querySelectorAll(".service-card").forEach(card => {
+        card.addEventListener("click", function () {
+            const serviceId = this.getAttribute("data-id");
+            
+            // ดึงเนื้อหาของ popup จาก cardpopup.ejs และแสดง
+            fetch(`/cardpopup/${serviceId}`)
+                .then(response => response.text())
+                .then(html => {
+                    let popupContainer = document.createElement("div");
+                    popupContainer.innerHTML = html;
+                    popupContainer.classList.add("popup-overlay");
+                    
+                    document.body.appendChild(popupContainer);
+                    
+                    // ปิด popup เมื่อกดปุ่ม close
+                    popupContainer.querySelector(".close-btn").addEventListener("click", function () {
+                        document.body.removeChild(popupContainer);
+                    });
+                })
+                .catch(error => console.error("Error loading popup:", error));
         });
+    });
     });
 
     // เปลี่ยนไปยังหน้า aboutus.ejs
@@ -89,17 +110,24 @@
             }
         });
 
-        serviceGrid.innerHTML = ""; // ล้างการ์ดเดิม
-        services.forEach(service => serviceGrid.appendChild(service)); // ใส่การ์ดใหม่ตามลำดับ
+        serviceGrid.innerHTML = "";
+        services.forEach(service => serviceGrid.appendChild(service));
+
+        // อัปเดตสีของตัวเลือก
+        document.querySelectorAll(".sort-option").forEach(option => {
+            option.classList.remove("active");
+        });
+        document.querySelector(`[data-sort="${criteria}"]`).classList.add("active");
     }
 
-    document.getElementById("sortById").addEventListener("click", function () {
-        sortServices("id");
+    document.querySelectorAll(".sort-option").forEach(option => {
+        option.addEventListener("click", function () {
+            sortServices(this.getAttribute("data-sort"));
+        });
     });
 
-    document.getElementById("sortByName").addEventListener("click", function () {
-        sortServices("name");
-    });
+    // เรียงตาม ID เป็นค่าเริ่มต้น
+    sortServices("id");
 
 </script>
 
