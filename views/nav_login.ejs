@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
     <nav>
@@ -13,24 +14,22 @@
         <a href="/appointment">รายการนัดหมาย</a>
     
         <div class="bookshelf">
-            <div class="dropdown">
-                <% const upcomingApps = notifications.filter(n => Math.floor((new Date(n.date) - new Date())/ (1000 * 60 * 60)) < 2); %>
-                <img src="/img/bell.png" alt="bell_icon">
-                <% if (upcomingApps.length > 0) { %>
-                  <div class="notification-badge"><%= upcomingApps.length %></div>
+            <% if (Array.isArray(notifications)) { %>
+            <div class="notification-icon">
+                <img src="/img/bell.png" alt="bell" id="bell">
+                <% if (notifications.length > 0) { %>
+                  <div class="badge"><%= notifications.length %></div>
                 <% } %>
-                <div class="dropdown-content">
-                  <% upcomingApps.forEach(inrows => { %>
-                    <a href="#" 
-                       class="notification-item" 
-                       data-id="<%= inrows.id %>"
-                       onclick="markAsViewed(this)">
-                      คุณมี <%= inrows.service_name %> ตอน <%= inrows.date %>
-                    </a>
+                <div class="notification-dropdown">
+                  <% notifications.forEach(noti => { %>
+                    <div class="notification-item">
+                      <span><%= noti.service_name %></span>
+                      <small><%= new Date(noti.date).toLocaleString() %></small>
+                    </div>
                   <% }); %>
                 </div>
               </div>
-            
+              <% } %>
             <!-- Username dropdown menu -->
             <div class="dropdown">
                 <div class="dropdown-username">
@@ -44,14 +43,5 @@
         </div>
     </nav>    
 </body>
-<script>
-    async function markAsViewed(element) {
-      element.remove(); // ลบการแจ้งเตือนจาก UI
-      const badge = document.querySelector('.notification-badge');
-      if (badge) {
-        badge.textContent = parseInt(badge.textContent) - 1;
-        if (parseInt(badge.textContent) === 0) badge.remove();
-      }
-    }
-</script>
+<script src="/scripts/navbar.js"></script>
 </html>
