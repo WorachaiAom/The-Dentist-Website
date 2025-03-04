@@ -1,22 +1,47 @@
-<nav>
-    <h1 class="logoText">Manaw</h1>
-
-    <a href="/">หน้าแรก</a>
-    <a href="/history">ดูประวัติ</a>
-    <a href="/appointment">รายการนัดหมาย</a>
-
-    <div class="bookshelf">
-        <img src="/img/bell.png" alt="bell_icon">
-        
-        <!-- Username dropdown menu -->
-        <div class="dropdown">
-            <div class="dropdown-username">
-                <h1 class="username"><%= username %></h1>
-            </div>
-                <div class="dropdown-content">
-                <a href="/editacct">ตั้งค่า</a>
-                <a href="/logout">ออกจากระบบ</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../nav.css">
+</head>
+<body>
+    <nav>
+        <h1 class="logoText">Manaw</h1>
+    
+        <a href="/">หน้าแรก</a>
+        <a href="/history">ดูประวัติ</a>
+        <a href="/appointment">รายการนัดหมาย</a>
+    
+        <div class="bookshelf">
+            <% if (Array.isArray(notifications)) { %>
+            <div class="notification-icon">
+                <img src="/img/bell.png" alt="bell" id="bell">
+                <% if (notifications.length > 0) { %>
+                  <div class="badge"><%= notifications.length %></div>
+                <% } %>
+                <div class="notification-dropdown">
+                  <% notifications.forEach(noti => { %>
+                    <div class="notification-item">
+                      <span><%= noti.service_name %></span>
+                      <small><%= new Date(noti.date).toLocaleString() %></small>
+                    </div>
+                  <% }); %>
+                </div>
+              </div>
+              <% } %>
+            <!-- Username dropdown menu -->
+            <div class="dropdown">
+                <div class="dropdown-username">
+                    <h1 class="username"><%= username %></h1>
+                </div>
+                    <div class="dropdown-content">
+                    <a href="/editacct">ตั้งค่า</a>
+                    <a href="/logout">ออกจากระบบ</a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>    
+</body>
+<script src="/scripts/navbar.js"></script>
+</html>
