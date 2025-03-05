@@ -109,10 +109,18 @@
 
 
     function update_period(date_value){
+        const urlParams = new URLSearchParams(window.location.search);
         const period_date = document.getElementById("period_date");
         const period_table = document.getElementById("period_table");
         period_table.innerHTML = "";
         period_date.innerText = date_value;
+        let hiddenservice = document.createElement("input");
+        hiddenservice.type = "hidden";
+        hiddenservice.id = "serviceId";
+        hiddenservice.name = "serviceId";
+        const serviceId = urlParams.get("serviceId");
+        if(serviceId)hiddenservice.value = serviceId;
+        period_table.appendChild(hiddenservice);
         let start = 9;
         let end = 22;
         for(let i=start;i<=end;i++){

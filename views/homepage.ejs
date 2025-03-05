@@ -51,7 +51,7 @@
         document.querySelectorAll(".service-card").forEach(card => {
             card.addEventListener("click", function () {
                 const serviceId = this.getAttribute("data-id");
-                alert("Service ID: " + serviceId);
+                window.location.href = `appointment?serviceId=${serviceId}`;
             });
         });
     });
