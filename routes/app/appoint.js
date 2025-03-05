@@ -63,7 +63,7 @@ router.post("/add", (req, res) => {
                  return res.status(400).send("Error adding appointment" + err);
                }
                db.run("COMMIT");
-               res.redirect("/");
+               res.redirect("/editappt");
              }
            );
          }
@@ -83,14 +83,16 @@ router.post("/confirm", (req, res) => {
       }
       
       // Update the appointment state
-      db.run("UPDATE appointment SET state_id = 2 WHERE id = ?", [appointment_id], function (err) {
-        if (err) {
-          // If there's an error, rollback and send error response
-          return db.run("ROLLBACK", () => {
-            return res.status(400).send("Error updating appointment state: " + err.message);
-          });
-        }
-        
+      db.all("SELECT state_id FROM appointment WHERE id = ?", [appointment_id], function (err, stateid) {
+        db.run("UPDATE appointment SET state_id = ? WHERE id = ?", [(parseInt(stateid[0].state_id)>3)? 3:2, appointment_id], function (err) {
+          if (err) {
+            // If there's an error, rollback and send error response
+            return db.run("ROLLBACK", () => {
+              return res.status(400).send("Error updating appointment state: " + err.message);
+            });
+          }
+      })
+      
         // If update is successful, commit the transaction
         db.run("COMMIT", (err) => {
           if (err) {
