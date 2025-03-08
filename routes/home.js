@@ -4,7 +4,7 @@ const { db } = require('../database/database');
 
 // แสดงหน้า Homepage
 router.get('/', (req, res) => {
-    const cardService = 'SELECT id, name, description FROM services WHERE id != 0';
+    const cardService = 'SELECT id, name, description, detail, rate FROM services WHERE id != 0';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
 
     db.all(cardService, [], (err, rows) => {
@@ -20,12 +20,33 @@ router.get('/', (req, res) => {
     });
 });
 
+//แสดงหน้า "ข้อมูลเพิ่มเติม/เกี่ยวกับเรา"
 router.get('/aboutus', (req, res) => {
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
     const navTemplate = username ? 'nav_login' : 'nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
     res.render('aboutus', { username, navTemplate });
 
 });
+
+//แสดง popup card
+router.get('/cardpopup/:id', (req, res) => {
+    const serviceId = req.params.id;
+    const query = 'SELECT * FROM services WHERE id = ?';
+
+    db.get(query, [serviceId], (err, service) => {
+        if (err) {
+            console.error('Error fetching service details:', err.message);
+            return res.status(500).send('Error fetching service details');
+        }
+
+        if (!service) {
+            return res.status(404).send('Service not found');
+        }
+
+        res.render('cardpopup', { service });
+    });
+});
+
 
 // จัดการการเข้าสู่ระบบ
 router.post('/login', (req, res) => {
@@ -53,11 +74,6 @@ router.post('/login', (req, res) => {
         // เปลี่ยนเส้นทางไปยังหน้า Homepage
         res.redirect('/');
     });
-});
-
-router.get('/aboutus', (req, res) => {
-    const username = req.cookies.username;
-    res.render('aboutus', {username});
 });
 
 module.exports = router;

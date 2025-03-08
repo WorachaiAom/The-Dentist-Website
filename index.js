@@ -88,7 +88,7 @@ app.get('/logout', (req, res) => {
 checkDatabaseConnection()
     .then((message) => {
         console.log(message);
-        const PORT = process.env.PORT || 80;
+        const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });

@@ -53,30 +53,30 @@
 <script>
 
     // //Test click and show card ID
-    // document.addEventListener("DOMContentLoaded", function () {
-    // document.querySelectorAll(".service-card").forEach(card => {
-    //     card.addEventListener("click", function () {
-    //         const serviceId = this.getAttribute("data-id");
+    document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".service-card").forEach(card => {
+        card.addEventListener("click", function () {
+            const serviceId = this.getAttribute("data-id");
             
-    //         // ดึงเนื้อหาของ popup จาก cardpopup.ejs และแสดง
-    //         fetch(`/cardpopup`)
-    //             .then(response => response.text())
-    //             .then(html => {
-    //                 let popupContainer = document.createElement("div");
-    //                 popupContainer.innerHTML = html;
-    //                 popupContainer.classList.add("popup-overlay");
+            // ดึงเนื้อหาของ popup จาก cardpopup.ejs และแสดง
+            fetch(`/cardpopup/${serviceId}`)
+                .then(response => response.text())
+                .then(html => {
+                    let popupContainer = document.createElement("div");
+                    popupContainer.innerHTML = html;
+                    popupContainer.classList.add("popup-overlay");
                     
-    //                 document.body.appendChild(popupContainer);
+                    document.body.appendChild(popupContainer);
                     
-    //                 // ปิด popup เมื่อกดปุ่ม close
-    //                 popupContainer.querySelector(".close-btn").addEventListener("click", function () {
-    //                     document.body.removeChild(popupContainer);
-    //                 });
-    //             })
-    //             .catch(error => console.error("Error loading popup:", error));
-    //     });
-    // });
-    // });
+                    // ปิด popup เมื่อกดปุ่ม close
+                    popupContainer.querySelector(".close-btn").addEventListener("click", function () {
+                        document.body.removeChild(popupContainer);
+                    });
+                })
+                .catch(error => console.error("Error loading popup:", error));
+        });
+    });
+    });
 
     // เปลี่ยนไปยังหน้า aboutus.ejs
     document.getElementById("aboutUsBtn").addEventListener("click", function () {
