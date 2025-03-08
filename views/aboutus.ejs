@@ -4,8 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
+    <link rel="stylesheet" href="../tiger_style.css">
+
+    <style>
+        body{
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+        }
+
+        header {
+            background-color: #0066cc;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header h1 {
+            padding-top: 90px;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .content p {
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #555;
+            text-align: justify;
+        }
+
+        .content h2 {
+            color: #0066cc;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: #0066cc;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    Hello <%= username %>
+
+    <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
+    <%- include(navTemplate) %>
+
+    <header>
+        <h1>Hello <%= username %></h1>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>เกี่ยวกับเว็บไซต์นี้</h2>
+            <p>
+                เว็บไซต์นี้ได้รับการพัฒนาขึ้นเพื่อเป็นส่วนหนึ่งของโครงงานรายวิชา <span class="highlight">Fundamental Web Programming</span> 
+                โดยนักศึกษากลุ่มที่ 25 คณะเทคโนโลยีสารสนเทศ สาขาเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง
+            </p>
+            <h3>วัตถุประสงค์ของเว็บไซต์</h3>
+            <p>
+                แพลตฟอร์มนี้ถูกออกแบบมาเพื่อ เพิ่มประสิทธิภาพในการบริหารจัดการคิวนัดหมายของคลินิกทันตกรรม 
+                ทำให้ผู้ใช้สามารถเข้าถึงบริการได้อย่างสะดวกสบาย ลดปัญหาความล่าช้าและการรอคิวนาน โดยมุ่งเน้นการใช้งานที่ง่ายและมีประสิทธิภาพ 
+                รองรับผู้ใช้ทุกกลุ่ม
+            </p>
+        </div>
+    </div>
+
+    <footer style="bottom: 0;">
+        <h2>เกี่ยวกับเรา</h2>
+        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+        <p><strong>+1 234 567 890</strong></p>
+        <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+    </footer>
+
 </body>
 </html>
