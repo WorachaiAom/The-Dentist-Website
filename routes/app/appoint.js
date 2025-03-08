@@ -27,10 +27,10 @@ router.get("/", async(req, res) => {
           JOIN employees ON appointment.employee_id = employees.id
           JOIN services ON appointment.service_id = services.id
           JOIN users ON customers.id = users.id
-          WHERE state.status = 'รอยืนยัน'
+          WHERE employees.id = (SELECT users.id FROM users WHERE username = ?)
           ORDER BY appointment.date DESC;
           `;
-        db.all(sql, [], (err, rows) => {
+        db.all(sql, [username], (err, rows) => {
           if (err) {
             console.error("Error fetching appointment history:", err.message);
             return res.status(500).send("Database error");
