@@ -44,62 +44,37 @@ router.get("/", async(req, res) => {
 });
 
 //Adding appointment route
-router.post("/add", (req, res) => {
-  const {serviceId, date} = req.body;
-  const username = req.cookies.username;
-
-  db.serialize(() => {
-     db.run("BEGIN TRANSACTION");
-     //to do: more efficient way to identify user cutomer_id
-     db.all("SELECT users.id AS uid, doctors.id AS did FROM users CROSS JOIN doctors WHERE users.username=? AND doctors.service_id=?", [username, serviceId],
-         function (err, user) {
-          console.log(user);
-           db.run(
-             "INSERT INTO appointment (customer_id, state_id, employee_id, service_id, date) VALUES (?, ?, ?, ?, ?)",
-             [user[0].uid, 1, user[0].did, serviceId, date],//to do: default for doctor strange for test.
-             function (err) {
-               if (err) {
-                 db.run("ROLLBACK"); // Rollback the transaction on error
-                 return res.status(400).send("Error adding appointment" + err);
-               }
-               db.run("COMMIT");
-               res.redirect("/editappt");
-             }
-           );
-         }
-       );
- }); 
-});
-
-//Confirm appointment
 router.post("/confirm", (req, res) => {
   const { appointment_id } = req.body;
 
   db.serialize(() => {
-    // Start the transaction
     db.run("BEGIN TRANSACTION", (err) => {
       if (err) {
         return res.status(500).send("Error starting transaction: " + err.message);
       }
-      
-      // Update the appointment state
-      db.all("SELECT state_id FROM appointment WHERE id = ?", [appointment_id], function (err, stateid) {
-        db.run("UPDATE appointment SET state_id = ? WHERE id = ?", [(parseInt(stateid[0].state_id)>3)? 3:2, appointment_id], function (err) {
+
+      db.all("SELECT state_id FROM appointment WHERE id = ?", [appointment_id], function (err, rows) {
+        if (err || rows.length === 0) {
+          return db.run("ROLLBACK", () => {
+            return res.status(400).send("Error retrieving appointment state: " + (err ? err.message : "No record found"));
+          });
+        }
+
+        const newState = parseInt(rows[0].state_id) > 3 ? 3 : 2;
+
+        db.run("UPDATE appointment SET state_id = ? WHERE id = ?", [newState, appointment_id], function (err) {
           if (err) {
-            // If there's an error, rollback and send error response
             return db.run("ROLLBACK", () => {
               return res.status(400).send("Error updating appointment state: " + err.message);
             });
           }
-      })
-      
-        // If update is successful, commit the transaction
-        db.run("COMMIT", (err) => {
-          if (err) {
-            return res.status(500).send("Error committing transaction: " + err.message);
-          }
-          // Finally, redirect after a successful commit
-          res.redirect("/");
+
+          db.run("COMMIT", (err) => {
+            if (err) {
+              return res.status(500).send("Error committing transaction: " + err.message);
+            }
+            res.redirect("/");  // Fixed redirect path
+          });
         });
       });
     });
@@ -110,33 +85,30 @@ router.post("/confirm", (req, res) => {
 //Denied appointment
 router.post("/denied", (req, res) => {
   const { appointment_id } = req.body;
+
   db.serialize(() => {
-    // Start the transaction
     db.run("BEGIN TRANSACTION", (err) => {
       if (err) {
         return res.status(500).send("Error starting transaction: " + err.message);
       }
-      
-      // Update the appointment state
+
       db.run("DELETE FROM appointment WHERE id = ?", [appointment_id], function (err) {
         if (err) {
-          // If there's an error, rollback and send error response
           return db.run("ROLLBACK", () => {
             return res.status(400).send("Error deleting appointment: " + err.message);
           });
         }
-        
-        // If update is successful, commit the transaction
+
         db.run("COMMIT", (err) => {
           if (err) {
             return res.status(500).send("Error committing transaction: " + err.message);
           }
-          // Finally, redirect after a successful commit
-          res.redirect("/");
+          res.redirect("/");  // Fixed redirect path
         });
       });
     });
   });
 });
+
 
 module.exports = router;

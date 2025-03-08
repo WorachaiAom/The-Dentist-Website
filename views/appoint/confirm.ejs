@@ -95,13 +95,21 @@
             fetch("appointment/confirm", {method: "POST",
             headers: {
             'Content-Type': 'application/json'},
-            body: JSON.stringify({appointment_id: id})}).catch(error => console.log("Cannot fetch:", error));
+            body: JSON.stringify({appointment_id: id})}).then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+            }).catch(error => console.error("Error:", error));
         }
         function denied_appointment(id){
             fetch("appointment/denied", {method: "POST",
             headers: {
             'Content-Type': 'application/json'},
-            body: JSON.stringify({appointment_id: id})}).catch(error => console.log("Cannot fetch:", error));
+            body: JSON.stringify({appointment_id: id})}).then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
+            }).catch(error => console.error("Error:", error));
         }
     </script>
 </body>
