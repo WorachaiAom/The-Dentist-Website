@@ -23,7 +23,7 @@
 
             <section class="services">
                 <div style="margin: 50px;">
-                    <h1 style="font-size: xx-large;">จองบริการของพวกเรา</h1>
+                    <h1 style="font-size: xx-large;">บริการทันตกรรม</h1>
                 </div>
                 <div class="search-container">
                     ค้นหาบิรการ:
@@ -36,30 +36,38 @@
                         <span class="sort-option" data-sort="rate">ความนิยม</span>
                     </div>
 
-                    <% if (role === 'doctor' && username) { %>
+                    <% if (role==='doctor' && username) { %>
                         <a href="/service" class="btn manage-service-btn">จัดการบริการ</a>
-                    <% } %>
+                        <% } %>
 
                 </div>
                 <div class="grid" id="serviceGrid">
-                    <% data.forEach(item => { %>
-                        <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>" data-rate="<%= item.rate %>">
-                            <h2><%= item.name %></h2>
-                            <p><%= item.description %></p>
+                    <div class="no-results" id="noResults" style="display: none;">
+                        <p>ไม่พบข้อมูล</p>
+                    </div>
+                    <% data.forEach(item=> { %>
+                        <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>"
+                            data-rate="<%= item.rate %>">
+                            <h2>
+                                <%= item.name %>
+                            </h2>
+                            <p>
+                                <%= item.description %>
+                            </p>
                             <div class="rating">
                                 <div>
-                                    <% for (let i = 1; i <= 5; i++) { %>
+                                    <% for (let i=1; i <=5; i++) { %>
                                         <span class="star <%= i <= item.rate ? 'filled' : '' %>">&#9733;</span>
-                                    <% } %>
+                                        <% } %>
                                 </div>
                                 <% if (username) { %>
                                     <a href="appointment?serviceId=<%= item.id %>">
                                         <button id="appoinA-but">จอง</button>
                                     </a>
-                                <% } %>
+                                    <% } %>
                             </div>
                         </div>
-                    <% }); %>
+                        <% }); %>
                 </div>
             </section>
         </div>
@@ -117,16 +125,27 @@
     document.getElementById("searchService").addEventListener("input", function () {
         let searchValue = this.value.toLowerCase();
         let services = document.querySelectorAll(".service-card");
+        let noResults = document.getElementById("noResults");
+        let found = false;
 
         services.forEach(card => {
             let serviceName = card.getAttribute("data-name");
             if (serviceName.includes(searchValue)) {
                 card.style.display = "block"; // แสดงบริการที่ตรงกับค้นหา
+                found = true;
             } else {
                 card.style.display = "none"; // ซ่อนบริการที่ไม่ตรง
             }
         });
+
+        // แสดงหรือซ่อนข้อความ "ไม่พบข้อมูล"
+        if (found) {
+            noResults.style.display = "none";
+        } else {
+            noResults.style.display = "block";
+        }
     });
+
 
     //Sorting now have sort{id, name}
     function sortServices(criteria) {
