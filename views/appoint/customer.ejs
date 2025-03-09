@@ -118,9 +118,17 @@
         hiddenservice.type = "hidden";
         hiddenservice.id = "serviceId";
         hiddenservice.name = "serviceId";
+        
+        let hiddenappointment = document.createElement("input");
+        hiddenappointment.type = "hidden";
+        hiddenappointment.id = "appointmentId";
+        hiddenappointment.name = "appointmentId";
         const serviceId = urlParams.get("serviceId");
+        const appointmentId = urlParams.get("appointmentId");
         if(serviceId)hiddenservice.value = serviceId;
+        if(appointmentId)hiddenappointment.value = appointmentId;
         period_table.appendChild(hiddenservice);
+        period_table.appendChild(hiddenappointment);
         let start = 9;
         let end = 22;
         for(let i=start;i<=end;i++){
