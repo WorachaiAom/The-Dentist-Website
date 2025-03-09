@@ -1,0 +1,52 @@
+<div class="popup-content">
+    <button class="close-btn">&times;</button>
+    <div class="popup-header">
+        <h2>รายละเอียดการบริการ</h2>
+    </div>
+    <div class="popup-body">
+        <p><strong>ชื่อ:</strong>
+            <%= service.name %>
+        </p>
+        <p><strong>คำอธิบาย:</strong>
+            <%= service.description %>
+        </p>
+        <p><strong>รายละเอียด:</strong>
+            <%= service.detail %>
+        </p>
+        
+        <a href="appointment?serviceId=<%= service.id %>">
+            <button id="appoin-but">จอง</button>
+        </a>
+    </div>
+</div>
+
+<link rel="stylesheet" href="../homepage/cardpopup.css">
+
+<script>
+    // ตรวจสอบว่ามี popup เก่าที่เปิดอยู่หรือไม่
+    const existingPopup = document.querySelector('.popup-overlay');
+    if (existingPopup) {
+        existingPopup.remove(); // ปิด popup เก่า
+    }
+
+    // สร้าง popup ใหม่
+    const popupContainer = document.createElement('div');
+    popupContainer.classList.add('popup-overlay');
+    popupContainer.innerHTML = document.querySelector('.popup-content').outerHTML;
+
+    // เพิ่ม popup ใหม่ลงใน body
+    document.body.appendChild(popupContainer);
+
+    // ปิด popup เมื่อคลิกปุ่ม close
+    const closeBtn = popupContainer.querySelector('.close-btn');
+    closeBtn.addEventListener('click', function () {
+        popupContainer.remove();
+    });
+
+    // ปิด popup เมื่อคลิกนอกพื้นที่ popup
+    popupContainer.addEventListener('click', function (e) {
+        if (e.target === popupContainer) {
+            popupContainer.remove();
+        }
+    });
+</script>

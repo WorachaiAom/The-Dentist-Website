@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('../database/database');
+const { db } = require('../../database/database');
 
 // แสดงหน้า Homepage
 router.get('/', (req, res) => {
@@ -14,17 +14,17 @@ router.get('/', (req, res) => {
         }
 
         // เลือก navigation ตามสถานะการเข้าสู่ระบบ
-        const navTemplate = username ? 'nav_login' : 'nav';
+        const navTemplate = username ? '../nav_login' : '../nav';
 
-        res.render('homepage', { data: rows, username, navTemplate });
+        res.render('homepage/homepage', { data: rows, username, navTemplate });
     });
 });
 
 //แสดงหน้า "ข้อมูลเพิ่มเติม/เกี่ยวกับเรา"
 router.get('/aboutus', (req, res) => {
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
-    const navTemplate = username ? 'nav_login' : 'nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
-    res.render('aboutus', { username, navTemplate });
+    const navTemplate = username ? '../nav_login' : '../nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
+    res.render('homepage/aboutus', { username, navTemplate });
 
 });
 
@@ -43,9 +43,20 @@ router.get('/cardpopup/:id', (req, res) => {
             return res.status(404).send('Service not found');
         }
 
-        res.render('cardpopup', { service });
+        // ถ้าคุณต้องการดึงข้อมูลอื่นๆ เพิ่มเติม เช่น รายการทั้งหมด
+        const allServicesQuery = 'SELECT * FROM services';
+
+        db.all(allServicesQuery, [], (err, rows) => {
+            if (err) {
+                console.error('Error fetching all services:', err.message);
+                return res.status(500).send('Error fetching all services');
+            }
+
+            res.render('homepage/cardpopup', { service, data: rows });
+        });
     });
 });
+
 
 
 // จัดการการเข้าสู่ระบบ
