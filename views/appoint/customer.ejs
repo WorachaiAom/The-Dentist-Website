@@ -106,8 +106,6 @@
     }
     update_calendar(current_date);
 
-
-
     function update_period(date_value){
         const urlParams = new URLSearchParams(window.location.search);
         const period_date = document.getElementById("period_date");
@@ -131,25 +129,40 @@
         period_table.appendChild(hiddenappointment);
         let start = 9;
         let end = 22;
-        for(let i=start;i<=end;i++){
-            let radio_period = document.createElement("input");
-            radio_period.classList.add("period_item");
-            let label = document.createElement("label");
-            label.classList.add("period_item");
-            radio_period.type = "radio";
-            radio_period.name = "date";
-            radio_period.value = date_value + " " + i.toString()+":00:00"
-            radio_period.id = i.toString();
-            label.setAttribute("for", i.toString());
-            label.innerText = i.toString()+":00 น."
-            period_table.appendChild(radio_period);
-            period_table.appendChild(label);
-        }
-        let submit = document.createElement("input");
-        submit.id = "submitbutton"
-        submit.type = "submit";
-        submit.value = "ตกลง";
-        period_table.appendChild(submit);
+
+        fetch("/appointment/appfilter").then(res => res.json()).then(data => {
+            //console.log(data);
+            for(let i=start;i<=end;i++){
+                let skip = false;
+                for(let j = 0; j<data.length; j++){
+                    //console.log("eletest: ",data[j].date, data[j].service_id, (date_value + " " + i.toString()+":00:00"), hiddenservice.value, data[j].date == (date_value + " " + i.toString()+":00:00"));
+                    if(data[j].service_id == hiddenservice.value && data[j].date == (date_value + " " + i.toString()+":00:00")){
+                        skip = true;
+                        break;
+                    }
+                }
+                if(skip)continue;
+                let radio_period = document.createElement("input");
+                radio_period.classList.add("period_item");
+                let label = document.createElement("label");
+                label.classList.add("period_item");
+                radio_period.type = "radio";
+                radio_period.name = "date";
+                radio_period.value = date_value + " " + i.toString()+":00:00"
+                radio_period.id = i.toString();
+                label.setAttribute("for", i.toString());
+                label.innerText = i.toString()+":00 น."
+                period_table.appendChild(radio_period);
+                period_table.appendChild(label);
+            }
+        }).catch(err => {console.error(err);}).finally(() => {
+            let submit = document.createElement("input");
+            submit.id = "submitbutton"
+            submit.type = "submit";
+            submit.value = "ตกลง";
+            period_table.appendChild(submit);
+        });
+
     }
 
     function clicking(button, date){

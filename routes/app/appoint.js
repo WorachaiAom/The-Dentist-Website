@@ -43,6 +43,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/appfilter", (req, res) => {
+  try{
+    let sql = "SELECT service_id, date FROM appointment WHERE state_id <> 3";
+    db.all(sql, [], (err, dates) => {
+      if(err)return res.status(500).send("Database error");
+      res.send(JSON.stringify(dates));
+    })
+  }catch(err){
+    res.status(500).send("error");
+    console.log(err);
+  }
+});
+
 /*
 router.get("/before", async (req, res) => {
   const username = req.cookies.username;
