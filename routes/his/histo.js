@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
     let params = [];
 
     if (role === "customer") {
-        // Customers can only see their own appointments
         sql = `
             SELECT 
                 appointment.id,
@@ -23,7 +22,8 @@ router.get("/", (req, res) => {
                 employees.fname || ' ' || employees.sname AS provider_name,
                 services.name AS service_name,
                 appointment.date,
-                appointment.info
+                appointment.info,
+                appointment.score
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id
             JOIN state ON appointment.state_id = state.id
@@ -35,7 +35,6 @@ router.get("/", (req, res) => {
         `;
         params = [username];
     } else {
-        // Employees can see all appointments
         sql = `
             SELECT 
                 appointment.id,
@@ -44,7 +43,8 @@ router.get("/", (req, res) => {
                 employees.fname || ' ' || employees.sname AS provider_name,
                 services.name AS service_name,
                 appointment.date,
-                appointment.info
+                appointment.info,
+                appointment.score
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id
             JOIN state ON appointment.state_id = state.id
@@ -64,7 +64,6 @@ router.get("/", (req, res) => {
     });
 });
 
-// API สำหรับอัปเดตรายละเอียดเพิ่มเติม
 router.post("/update-info", (req, res) => {
     const { appointmentId, info } = req.body;
     const role = req.cookies.role;
@@ -83,4 +82,21 @@ router.post("/update-info", (req, res) => {
     });
 });
 
+router.post("/update-score", (req, res) => {
+    const { appointmentId, score } = req.body;
+    const role = req.cookies.role;
+
+    if (role !== "customer") {
+        return res.status(403).send("Unauthorized");
+    }
+
+    const sql = "UPDATE appointment SET score = ? WHERE id = ?";
+    db.run(sql, [score, appointmentId], (err) => {
+        if (err) {
+            console.error("Error updating appointment score:", err.message);
+            return res.status(500).send("Database error");
+        }
+        res.send("Score update successful");
+    });
+});
 module.exports = router;

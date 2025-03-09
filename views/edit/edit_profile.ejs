@@ -31,11 +31,23 @@
                 <span class="value" id="surnameDisplay"><%= sname %></span>
                 <i class="edit-icon" onclick="openEditPopup('sname')">แก้ไข</i>
             </div>
+            
+            <div class="info-row">
+                <span class="label">อีเมล</span>
+                <span class="value" id="emailDisplay"><%= email %></span>
+                <i class="edit-icon" onclick="openEditPopup('email')">แก้ไข</i>
+            </div>
 
             <div class="info-row">
                 <span class="label">รหัสผ่าน</span>
                 <span class="value" id="passwordDisplay">********</span>
                 <i class="edit-icon" onclick="openEditPopup('password')">แก้ไข</i>
+            </div>
+
+            <div class="info-row">
+                <span class="label">เบอร์โทรศัพท์</span>
+                <span class="value" id="telDisplay"><%= tel %></span>
+                <i class="edit-icon" onclick="openEditPopup('tel')">แก้ไข</i>
             </div>
 
             <button class="confirm-btn" onclick="confirmChanges()">ยืนยัน</button>
@@ -89,7 +101,9 @@
                 username: 'กรอกชื่อผู้ใช้ใหม่',
                 fname: 'กรอกชื่อจริงใหม่',
                 sname: 'กรอกนามสกุลใหม่',
-                password: 'กรอกรหัสผ่านใหม่'
+                password: 'กรอกรหัสผ่านใหม่',
+                email: 'กรอกอีเมลใหม่',
+                tel: 'กรอกเบอร์โทรศัพท์ใหม่'
             };
             document.getElementById('editInput').placeholder = placeholderMap[field] || '';
             document.getElementById('editInput').value = '';
@@ -114,6 +128,10 @@
                 document.getElementById('surnameDisplay').innerText = newValue;
             } else if (currentField === 'password') {
                 document.getElementById('passwordDisplay').innerText = '********';
+            } else if (currentField === 'email') {
+                document.getElementById('emailDisplay').innerText = newValue;
+            } else if (currentField === 'tel') {
+                document.getElementById('telDisplay').innerText = newValue;
             }
             tempData[currentField] = newValue;
             closeEditPopup();
@@ -137,6 +155,14 @@
             }
             if (tempData.password) {
                 summaryText += `- รหัสผ่าน: ${tempData.password}\n`;
+                hasChanges = true;
+            }
+            if (tempData.email) {
+                summaryText += `- อีเมล: ${tempData.email}\n`;
+                hasChanges = true;
+            }
+            if (tempData.tel) {
+                summaryText += `- เบอร์โทรศัพท์: ${tempData.tel}\n`;
                 hasChanges = true;
             }
 
@@ -177,6 +203,12 @@
             if (tempData.sname) {
                 payload.sname = tempData.sname;
             }
+            if (tempData.email) {
+                payload.email = tempData.email;
+            }
+            if (tempData.tel) {
+                payload.tel = tempData.tel;
+            }
 
             fetch('/editacct/update-profile', {
                 method: 'POST',
@@ -202,6 +234,12 @@
                         }
                         if (tempData.password) {
                             document.getElementById('passwordDisplay').innerText = '********';
+                        }
+                        if (tempData.email) {
+                            document.getElementById('emailDisplay').innerText = tempData.email;
+                        }
+                        if (tempData.password) {
+                            document.getElementById('telDisplay').innerText = tempData.tel;
                         }
                     }
                 } else {

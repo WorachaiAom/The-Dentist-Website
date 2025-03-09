@@ -190,7 +190,10 @@ footer {
 .rating {
     margin-top: 10px;
     display: flex;
+    justify-content: space-between; /* ให้ child กระจายซ้าย-ขวา */
+    align-items: center; /* จัดให้อยู่แนวกลาง */
     gap: 5px;
+    width: 100%; /* ให้เต็มความกว้างของ container */
 }
 
 .star {
@@ -204,4 +207,29 @@ footer {
 .star.filled {
     color: #ffcc00;
     /* สีดาวที่ถูกเติม */
+}
+
+#appoinA-but {
+    padding: 10px 10px;
+    font-size: 1.2rem;
+    background: #22ae0a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: auto; /* ดันปุ่มไปขวาสุด */
+}
+
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #6b7280; /* สีเทาเข้ม */
+    padding: 20px;
+    background-color: #f3f4f6; /* สีพื้นหลังอ่อน */
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 80%;
+    width: 100%;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
