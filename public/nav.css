@@ -1,20 +1,28 @@
 /*Other Style */
 .bookshelf {
-    display: flex; /* ใช้ Flexbox แทน */
-    align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
-    justify-content: flex-end; /* ชิดขวา */
-    white-space: nowrap; /* ป้องกันขึ้นบรรทัดใหม่ */
+    display: flex;
+    /* ใช้ Flexbox แทน */
+    align-items: center;
+    /* จัดให้องค์ประกอบอยู่กึ่งกลางแนวตั้ง */
+    justify-content: flex-end;
+    /* ชิดขวา */
+    white-space: nowrap;
+    /* ป้องกันขึ้นบรรทัดใหม่ */
     gap: 10px;
 }
+
 .bookshelf img {
     height: 1cm;
     width: 1cm;
     margin-left: 10px;
 }
+
 .bookshelf a {
     margin-left: 10px;
-    text-decoration: none; /* ลบขีดเส้นใต้ลิงก์ */
-    color: white; /* ตั้งค่าสีตามต้องการ */
+    text-decoration: none;
+    /* ลบขีดเส้นใต้ลิงก์ */
+    color: white;
+    /* ตั้งค่าสีตามต้องการ */
     font-size: 16px;
 }
 
@@ -23,7 +31,8 @@ nav {
     background: #3498db;
     padding: 15px 20px;
     display: flex;
-    justify-content: space-between; /* Space between items */
+    justify-content: space-between;
+    /* Space between items */
     align-items: center;
     position: fixed;
     top: 0;
@@ -48,7 +57,7 @@ nav a:hover {
 }
 
 /*LOGO */
-.logoText{
+.logoText {
     color: white;
     font-size: 2rem;
     font-weight: bolder;
@@ -79,7 +88,8 @@ nav a:hover {
     color: black;
     padding: 12px 20px;
     text-decoration: none;
-    display: block; /* ✅ ทำให้ hover ครอบคลุมเต็มช่อง */
+    display: block;
+    /* ✅ ทำให้ hover ครอบคลุมเต็มช่อง */
     text-align: left;
     width: 100%;
     transition: background-color 0.3s ease;
@@ -123,9 +133,9 @@ nav a:hover {
 .notification-icon {
     position: relative;
     cursor: pointer;
-  }
-  
-  .badge {
+}
+
+.badge {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -134,9 +144,9 @@ nav a:hover {
     border-radius: 50%;
     padding: 3px 8px;
     font-size: 12px;
-  }
-  
-  .notification-dropdown {
+}
+
+.notification-dropdown {
     display: none;
     position: absolute;
     right: 0;
@@ -145,18 +155,25 @@ nav a:hover {
     border: 1px solid #ddd;
     min-width: fit-content;
     width: 5rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1;
     border-radius: 5px;
-  }
-  
-  .notification-item {
+}
+
+.notification-item {
     padding: 10px;
     border-bottom: 1px solid #eee;
-  }
-  
-  .notification-item small {
+}
+
+.notification-item small {
     color: #666;
     display: block;
     margin-top: 5px;
-  }
+}
+
+.username {
+    font-size: 1.2em; /* เพิ่มขนาดฟอนต์ */
+    text-decoration: underline; /* ขีดเส้นใต้ */
+    margin: 0; /* ลบ margin เดิม */
+    padding: 0; /* ลบ padding เดิม */
+}

@@ -1,0 +1,139 @@
+  /* เพิ่มสไตล์เฉพาะสำหรับหน้า manage */
+  .manage-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.manage-container h1 {
+    color: #0066cc;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.manage-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-container th,
+.manage-container td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.manage-container th {
+    background-color: #0066cc;
+    color: white;
+}
+
+.manage-container tr:hover {
+    background-color: #f5f5f5;
+}
+
+.btn {
+    padding: 8px 16px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.btnA {
+    padding: 8px 16px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.btn.danger {
+    background-color: #ff4d4d;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* สไตล์สำหรับ popup */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* สไตล์สำหรับช่องค้นหาและปุ่ม */
+.action-container {
+    display: flex;
+    align-items: center; /* จัดให้องค์ประกอบอยู่ในแนวตั้งเดียวกัน */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#searchInput {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    flex: 1;
+    max-width: 300px; /* ทำให้ช่องค้นหาสั้นลง */
+    height: 35px; /* กำหนดความสูงให้เท่ากับปุ่ม */
+    box-sizing: border-box; /* ป้องกัน padding และ border จาการเพิ่มขนาด */
+}
+
+#addServiceBtn {
+    padding: 8px 16px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 35px; /* กำหนดความสูงให้เท่ากับช่องค้นหา */
+    display: flex;
+    align-items: center; /* จัดข้อความในปุ่มให้อยู่กึ่งกลางแนวตั้ง */
+    justify-content: center; /* จัดข้อความในปุ่มให้อยู่กึ่งกลางแนวนอน */
+}
+
+#addServiceBtn:hover {
+    opacity: 0.9;
+}

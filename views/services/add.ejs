@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เพิ่มบริการใหม่</title>
-    <link rel="stylesheet" href="/nav.css">
-</head>
-<body>
-    <%- include('../nav') %>
-    <div class="container">
-        <h1>เพิ่มบริการใหม่</h1>
-        <form action="/service/add" method="POST">
-            <label for="name">ชื่อบริการ:</label>
-            <input type="text" id="name" name="name" required>
-            
-            <label for="description">คำอธิบาย:</label>
-            <input type="text" id="description" name="description" required>
-            
-            <label for="detail">รายละเอียด:</label>
-            <textarea id="detail" name="detail" required></textarea>
-            
-            <label for="rating">เรตติ้ง:</label>
-            <input type="number" id="rating" name="rating" min="1" max="5" required>
-            
-            <button type="submit" class="btn">เพิ่มบริการ</button>
-        </form>
-    </div>
-</body>
-</html>
+<div class="popup-content">
+    <button class="close-btn">&times;</button>
+    <h1>เพิ่มบริการใหม่</h1>
+    <form action="/service/add" method="POST">
+        <label for="name">ชื่อบริการ:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="description">คำอธิบาย:</label>
+        <input type="text" id="description" name="description" required>
+        
+        <label for="detail">รายละเอียด:</label>
+        <textarea id="detail" name="detail" required></textarea>
+        
+        <label for="rate">เรตติ้ง:</label>
+        <input type="number" id="rate" name="rate" min="1" max="5" required>
+        
+        <button type="submit" class="btn">เพิ่มบริการ</button>
+    </form>
+</div>
+
+<link rel="stylesheet" href="../service/add.css">

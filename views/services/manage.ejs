@@ -4,14 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการบริการ</title>
-    <link rel="stylesheet" href="/nav.css">
-    <link rel="stylesheet" href="/homepage/tiger.css">
+    <link rel="stylesheet" href="../homepage/tiger_style.css">
+    <link rel="stylesheet" href="../homepage/aboutus.css">
+    <link rel="stylesheet" href="../service/manage.css">
+
 </head>
 <body>
+    <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
     <%- include('../nav_login') %>
-    <div class="container">
+
+    <header>
         <h1>จัดการบริการ</h1>
-        <a href="/service/add" class="btn">เพิ่มบริการใหม่</a>
+    </header>
+
+    <div class="manage-container">
+        <div class="action-container">
+            <input type="text" id="searchInput" placeholder="ค้นหาบริการ...">
+            <button id="addServiceBtn" class="btnA">เพิ่มบริการใหม่</button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -30,9 +40,9 @@
                         <td><%= service.name %></td>
                         <td><%= service.description %></td>
                         <td><%= service.detail %></td>
-                        <td><%= service.rating %></td>
+                        <td><%= service.rate %></td>
                         <td>
-                            <a href="/service/edit/<%= service.id %>" class="btn">แก้ไข</a>
+                            <button class="btn edit-btn" data-id="<%= service.id %>">แก้ไข</button>
                             <form action="/service/delete/<%= service.id %>" method="POST" style="display:inline;">
                                 <button type="submit" class="btn danger">ลบ</button>
                             </form>
@@ -42,5 +52,71 @@
             </tbody>
         </table>
     </div>
+
+    <footer style="bottom: 0;">
+        <h2>เกี่ยวกับเรา</h2>
+        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+        <p><strong>+1 234 567 890</strong></p>
+        <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+    </footer>
+
+    <script>
+        // เปิด popup เพิ่มบริการ
+        document.getElementById('addServiceBtn').addEventListener('click', function () {
+            fetch('/service/add')
+                .then(response => response.text())
+                .then(html => {
+                    const popupContainer = document.createElement('div');
+                    popupContainer.classList.add('popup-overlay');
+                    popupContainer.innerHTML = html;
+                    document.body.appendChild(popupContainer);
+
+                    // ปิด popup เมื่อคลิกปุ่ม close
+                    popupContainer.querySelector('.close-btn').addEventListener('click', function () {
+                        document.body.removeChild(popupContainer);
+                    });
+                })
+                .catch(error => console.error('Error loading popup:', error));
+        });
+
+        // เปิด popup แก้ไขบริการ
+        document.querySelectorAll('.edit-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const serviceId = this.getAttribute('data-id');
+                fetch(`/service/edit/${serviceId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        const popupContainer = document.createElement('div');
+                        popupContainer.classList.add('popup-overlay');
+                        popupContainer.innerHTML = html;
+                        document.body.appendChild(popupContainer);
+
+                        // ปิด popup เมื่อคลิกปุ่ม close
+                        popupContainer.querySelector('.close-btn').addEventListener('click', function () {
+                            document.body.removeChild(popupContainer);
+                        });
+                    })
+                    .catch(error => console.error('Error loading popup:', error));
+            });
+        });
+
+        // ฟังก์ชันค้นหาบริการ
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const searchText = this.value.toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const description = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                const detail = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+                if (name.includes(searchText) || description.includes(searchText) || detail.includes(searchText)) {
+                    row.style.display = ''; // แสดงแถวที่ตรงกับคำค้นหา
+                } else {
+                    row.style.display = 'none'; // ซ่อนแถวที่ไม่ตรง
+                }
+            });
+        });
+    </script>
 </body>
 </html>
