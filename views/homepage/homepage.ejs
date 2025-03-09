@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,80 +8,98 @@
     <link rel="stylesheet" href="../homepage/tiger_style.css">
     <link rel="stylesheet" href="../nav.css">
 </head>
+
 <body>
 
     <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
     <%- include(navTemplate) %>
 
-    <div class="container">
-        <section class="hero">
-            <h1>การดูแลทางทันตกรรมที่คุณวางใจได้</h1>
-            <p>จองนัดหมายวันนี้เพื่อรอยยิ้มที่สดใสยิ่งขึ้น!</p>
-            <button class="btn" id="aboutUsBtn">ดูข้อมูลเพิ่มเติม!</button>
-        </section>
+        <div class="container">
+            <section class="hero">
+                <h1>การดูแลทางทันตกรรมที่คุณวางใจได้</h1>
+                <p>จองนัดหมายวันนี้เพื่อรอยยิ้มที่สดใสยิ่งขึ้น!</p>
+                <button class="btn" id="aboutUsBtn">ดูข้อมูลเพิ่มเติม!</button>
+            </section>
 
-        <section class="services">
-            <div style="margin: 50px;">
-                <h1 style="font-size: xx-large;">จองบริการของพวกเรา</h1>
-            </div>
-            <div class="search-container">
-                <input type="text" id="searchService" placeholder="ค้นหาบริการ...">
-
-                <div class="sort-options">
-                    <span class="sort-option active" data-sort="id">ค่าเริ่มต้น</span>
-                    <span class="sort-option" data-sort="name">ก-ฮ</span>
+            <section class="services">
+                <div style="margin: 50px;">
+                    <h1 style="font-size: xx-large;">จองบริการของพวกเรา</h1>
                 </div>
-            </div>
-            <div class="grid" id="serviceGrid">
-                <% data.forEach(item => { %>
-                    <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>">
-                        <h2><%= item.name %></h2>
-                        <%= item.description %>
-                    </div>
-                <% }); %>
-            </div>
-        </section>
-    </div>
+                <div class="search-container">
+                    <input type="text" id="searchService" placeholder="ค้นหาบริการ...">
 
-    <footer>
-        <h2>เกี่ยวกับเรา</h2>
-        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
-        <p><strong>+1 234 567 890</strong></p>
-        <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
-    </footer>
+                    <div class="sort-options">
+                        <span class="sort-option active" data-sort="id">ค่าเริ่มต้น</span>
+                        <span class="sort-option" data-sort="name">ก-ฮ</span>
+                        <span class="sort-option" data-sort="rate">ความนิยม</span>
+                    </div>
+
+                    <% if (role === 'doctor' && username) { %>
+                        <a href="/service" class="btn manage-service-btn">จัดการบริการ</a>
+                    <% } %>
+
+                </div>
+                <div class="grid" id="serviceGrid">
+                    <% data.forEach(item=> { %>
+                        <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>"
+                            data-rate="<%= item.rate %>">
+                            <h2>
+                                <%= item.name %>
+                            </h2>
+                            <%= item.description %>
+                        </div>
+                        <% }); %>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <h2>เกี่ยวกับเรา</h2>
+            <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+            <p><strong>+1 234 567 890</strong></p>
+            <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+        </footer>
 </body>
 
 <script>
+    // ส่งค่า username จาก EJS ไปยัง JavaScript
+    const username = "<%= username %>";
 
-    // //Test click and show card ID
+    //Test click and show card ID
     document.addEventListener("DOMContentLoaded", function () {
-    document.querySelectorAll(".service-card").forEach(card => {
-        card.addEventListener("click", function () {
-            const serviceId = this.getAttribute("data-id");
-            
-            // ดึงเนื้อหาของ popup จาก cardpopup.ejs และแสดง
-            fetch(`/cardpopup/${serviceId}`)
-                .then(response => response.text())
-                .then(html => {
-                    let popupContainer = document.createElement("div");
-                    popupContainer.innerHTML = html;
-                    popupContainer.classList.add("popup-overlay");
-                    
-                    document.body.appendChild(popupContainer);
-                    
-                    // ปิด popup เมื่อกดปุ่ม close
-                    popupContainer.querySelector(".close-btn").addEventListener("click", function () {
-                        document.body.removeChild(popupContainer);
-                    });
-                })
-                .catch(error => console.error("Error loading popup:", error));
+        document.querySelectorAll(".service-card").forEach(card => {
+            card.addEventListener("click", function () {
+                const serviceId = this.getAttribute("data-id");
+
+                // ตรวจสอบว่าผู้ใช้ล็อกอินหรือไม่
+                if (!username || username === "undefined") {
+                    alert("กรุณาล็อกอินก่อนใช้งาน");
+                    return; // หยุดการทำงานถ้าไม่ได้ล็อกอิน
+                }
+
+                // ดึงเนื้อหาของ popup จาก cardpopup.ejs และแสดง
+                fetch(`/cardpopup/${serviceId}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        let popupContainer = document.createElement("div");
+                        popupContainer.innerHTML = html;
+                        popupContainer.classList.add("popup-overlay");
+
+                        document.body.appendChild(popupContainer);
+
+                        // ปิด popup เมื่อกดปุ่ม close
+                        popupContainer.querySelector(".close-btn").addEventListener("click", function () {
+                            document.body.removeChild(popupContainer);
+                        });
+                    })
+                    .catch(error => console.error("Error loading popup:", error));
+            });
         });
-    });
     });
 
     // เปลี่ยนไปยังหน้า aboutus.ejs
     document.getElementById("aboutUsBtn").addEventListener("click", function () {
-        window.location.href = "/aboutus"; 
+        window.location.href = "/aboutus";
     });
 
     //Search Bar
@@ -108,6 +127,8 @@
                 return Number(a.getAttribute("data-id")) - Number(b.getAttribute("data-id"));
             } else if (criteria === "name") {
                 return a.getAttribute("data-name").localeCompare(b.getAttribute("data-name"));
+            } else if (criteria === "rate") {
+                return Number(b.getAttribute("data-rate")) - Number(a.getAttribute("data-rate"));
             }
         });
 

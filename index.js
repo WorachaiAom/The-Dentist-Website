@@ -81,6 +81,7 @@ app.use('/service', serviceRoutes);
 // Route สำหรับออกจากระบบ
 app.get('/logout', (req, res) => {
     res.clearCookie('username');
+    res.clearCookie('role');
     res.redirect('/');
 });
 

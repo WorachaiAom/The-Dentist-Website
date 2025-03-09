@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     if (!username) {
         return res.status(401).send("Unauthorized");
     }
-    
+
     let sql;
     let params = [];
 

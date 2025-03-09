@@ -6,6 +6,7 @@ const { db } = require('../../database/database');
 router.get('/', (req, res) => {
     const cardService = 'SELECT id, name, description, detail, rate FROM services WHERE id != 0';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
+    const role = req.cookies.role;
 
     db.all(cardService, [], (err, rows) => {
         if (err) {
@@ -16,7 +17,7 @@ router.get('/', (req, res) => {
         // เลือก navigation ตามสถานะการเข้าสู่ระบบ
         const navTemplate = username ? '../nav_login' : '../nav';
 
-        res.render('homepage/homepage', { data: rows, username, navTemplate });
+        res.render('homepage/homepage', { data: rows, username, navTemplate, role });
     });
 });
 

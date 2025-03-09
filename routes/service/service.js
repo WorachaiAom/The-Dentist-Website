@@ -25,13 +25,22 @@ router.get('/add', (req, res) => {
 // เพิ่มบริการใหม่
 router.post('/add', (req, res) => {
     const { name, description, detail, rate } = req.body;
+
+    // ตรวจสอบข้อมูลที่ส่งมา
+    if (!name || !description || !detail || !rate) {
+        return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
+    }
+
+    // เพิ่มข้อมูลลงในฐานข้อมูล
     const query = 'INSERT INTO services (name, description, detail, rate) VALUES (?, ?, ?, ?)';
     db.run(query, [name, description, detail, rate], function (err) {
         if (err) {
             console.error('Error adding service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการเพิ่มบริการ');
         }
-        res.redirect('/services');
+
+        // ส่งกลับไปยังหน้า manage-services หลังจากเพิ่มสำเร็จ
+        res.redirect('/service');
     });
 });
 
@@ -53,13 +62,22 @@ router.get('/edit/:id', (req, res) => {
 router.post('/edit/:id', (req, res) => {
     const serviceId = req.params.id;
     const { name, description, detail, rate } = req.body;
+
+    // ตรวจสอบข้อมูลที่ส่งมา
+    if (!name || !description || !detail || !rate) {
+        return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
+    }
+
+    // อัปเดตข้อมูลในฐานข้อมูล
     const query = 'UPDATE services SET name = ?, description = ?, detail = ?, rate = ? WHERE id = ?';
     db.run(query, [name, description, detail, rate, serviceId], function (err) {
         if (err) {
             console.error('Error updating service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการแก้ไขบริการ');
         }
-        res.redirect('/services');
+
+        // ส่งกลับไปยังหน้า manage-services หลังจากแก้ไขสำเร็จ
+        res.redirect('/service');
     });
 });
 
@@ -72,7 +90,7 @@ router.post('/delete/:id', (req, res) => {
             console.error('Error deleting service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการลบบริการ');
         }
-        res.redirect('/services');
+        res.redirect('/service');
     });
 });
 
