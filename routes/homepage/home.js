@@ -2,32 +2,65 @@ const express = require('express');
 const router = express.Router();
 const { db } = require('../../database/database');
 
+// ฟังก์ชันคำนวณค่า rate จากตาราง appointment
+function calculateServiceRate(db) {
+    return new Promise((resolve, reject) => {
+        // คำสั่ง SQL เพื่อคำนวณค่าเฉลี่ยของ score และอัปเดต rate ในตาราง services
+        const query = `
+            UPDATE services
+            SET rate = (
+                SELECT IFNULL(AVG(score), 0)
+                FROM appointment
+                WHERE appointment.service_id = services.id
+            )
+        `;
+
+        db.run(query, [], function (err) {
+            if (err) {
+                console.error('Error calculating service rates:', err.message);
+                reject(err);
+            } else {
+                console.log('Service rates updated successfully');
+                resolve();
+            }
+        });
+    });
+}
+
 // แสดงหน้า Homepage
 router.get('/', (req, res) => {
-    const cardService = 'SELECT id, name, description, detail, rate FROM services WHERE id != 0';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
     const role = req.cookies.role;
 
-    db.all(cardService, [], (err, rows) => {
-        if (err) {
-            console.error('Error fetching services:', err.message);
-            return res.status(500).send('Error fetching services');
-        }
+    // คำนวณค่า rate ก่อนดึงข้อมูล
+    calculateServiceRate(db)
+        .then(() => {
+            const cardService = 'SELECT id, name, description, detail, rate FROM services WHERE id != 0';
+            db.all(cardService, [], (err, rows) => {
+                if (err) {
+                    console.error('Error fetching services:', err.message);
+                    return res.status(500).send('Error fetching services');
+                }
 
-        // เลือก navigation ตามสถานะการเข้าสู่ระบบ
-        const navTemplate = username ? '../nav_login' : '../nav';
+                // เลือก navigation ตามสถานะการเข้าสู่ระบบ
+                const navTemplate = username ? '../nav_login' : '../nav';
 
-        res.render('homepage/homepage', { data: rows, username, navTemplate, role });
-    });
+                res.render('homepage/homepage', { data: rows, username, navTemplate, role });
+            });
+        })
+        .catch((err) => {
+            console.error('Error updating service rates:', err.message);
+            return res.status(500).send('Internal Server Error');
+        });
 });
 
-//แสดงหน้า "ข้อมูลเพิ่มเติม/เกี่ยวกับเรา"
+// แสดงหน้า "ข้อมูลเพิ่มเติม/เกี่ยวกับเรา"
 router.get('/aboutus', (req, res) => {
     const cardDoctor = 'SELECT description FROM doctors';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
     const navTemplate = username ? '../nav_login' : '../nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
-    
-        db.all(cardDoctor, [], (err, rows) => {
+
+    db.all(cardDoctor, [], (err, rows) => {
         if (err) {
             console.error('Error fetching services:', err.message);
             return res.status(500).send('Error fetching services');
@@ -37,7 +70,7 @@ router.get('/aboutus', (req, res) => {
     });
 });
 
-//แสดง popup card
+// แสดง popup card
 router.get('/cardpopup/:id', (req, res) => {
     const serviceId = req.params.id;
     const query = 'SELECT * FROM services WHERE id = ?';
@@ -65,8 +98,6 @@ router.get('/cardpopup/:id', (req, res) => {
         });
     });
 });
-
-
 
 // จัดการการเข้าสู่ระบบ
 router.post('/login', (req, res) => {

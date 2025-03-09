@@ -11,8 +11,14 @@
         <label for="detail">รายละเอียด:</label>
         <textarea id="detail" name="detail" required><%= service.detail %></textarea>
         
-        <label for="rate">เรตติ้ง:</label>
-        <input type="number" id="rate" name="rate" value="<%= service.rate %>" min="1" max="5" required>
+        <label for="price_estimate">ประมาณราคา:</label>
+        <input type="text" id="price_estimate" name="price_estimate" value="<%= service.price_estimate %>" required>
+        
+        <label for="duration">ระยะเวลา:</label>
+        <input type="text" id="duration" name="duration" value="<%= service.duration %>" required>
+        
+        <label for="recommendations">ข้อแนะนำ:</label>
+        <textarea id="recommendations" name="recommendations" required><%= service.recommendations %></textarea>
         
         <button type="submit" class="btn">บันทึกการแก้ไข</button>
     </form>

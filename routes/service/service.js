@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { db } = require('../../database/database');
 
-
-
 // แสดงรายการบริการทั้งหมด
 router.get('/', (req, res) => {
     const query = 'SELECT * FROM services WHERE id != 0'; // ไม่แสดงบริการ GODMODE
@@ -24,16 +22,16 @@ router.get('/add', (req, res) => {
 
 // เพิ่มบริการใหม่
 router.post('/add', (req, res) => {
-    const { name, description, detail, rate } = req.body;
+    const { name, description, detail, price_estimate, duration, recommendations } = req.body;
 
     // ตรวจสอบข้อมูลที่ส่งมา
-    if (!name || !description || !detail || !rate) {
+    if (!name || !description || !detail || !price_estimate || !duration || !recommendations) {
         return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
     }
 
     // เพิ่มข้อมูลลงในฐานข้อมูล
-    const query = 'INSERT INTO services (name, description, detail, rate) VALUES (?, ?, ?, ?)';
-    db.run(query, [name, description, detail, rate], function (err) {
+    const query = 'INSERT INTO services (name, description, detail, price_estimate, duration, recommendations ) VALUES (?, ?, ?, ?, ?, ?)';
+    db.run(query, [name, description, detail, price_estimate, duration, recommendations], function (err) {
         if (err) {
             console.error('Error adding service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการเพิ่มบริการ');
@@ -61,16 +59,16 @@ router.get('/edit/:id', (req, res) => {
 // แก้ไขบริการ
 router.post('/edit/:id', (req, res) => {
     const serviceId = req.params.id;
-    const { name, description, detail, rate } = req.body;
+    const { name, description, detail, price_estimate, duration, recommendations } = req.body;
 
     // ตรวจสอบข้อมูลที่ส่งมา
-    if (!name || !description || !detail || !rate) {
+    if (!name || !description || !detail || !price_estimate || !duration || !recommendations) {
         return res.status(400).send('กรุณากรอกข้อมูลให้ครบถ้วน');
     }
 
     // อัปเดตข้อมูลในฐานข้อมูล
-    const query = 'UPDATE services SET name = ?, description = ?, detail = ?, rate = ? WHERE id = ?';
-    db.run(query, [name, description, detail, rate, serviceId], function (err) {
+    const query = 'UPDATE services SET name = ?, description = ?, detail = ?, price_estimate = ?, duration = ?, recommendations = ? WHERE id = ?';
+    db.run(query, [name, description, detail, price_estimate, duration, recommendations, serviceId], function (err) {
         if (err) {
             console.error('Error updating service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการแก้ไขบริการ');

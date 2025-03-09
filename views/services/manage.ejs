@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../homepage/tiger_style.css">
     <link rel="stylesheet" href="../homepage/aboutus.css">
     <link rel="stylesheet" href="../service/manage.css">
-
 </head>
 <body>
     <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
@@ -29,7 +28,10 @@
                     <th>ชื่อบริการ</th>
                     <th>คำอธิบาย</th>
                     <th>รายละเอียด</th>
-                    <th>เรตติ้ง</th>
+                    <th>ความนิยม</th>
+                    <th>ประมาณราคา</th>
+                    <th>ระยะเวลา</th>
+                    <th>ข้อแนะนำ</th>
                     <th>การกระทำ</th>
                 </tr>
             </thead>
@@ -41,6 +43,9 @@
                         <td><%= service.description %></td>
                         <td><%= service.detail %></td>
                         <td><%= service.rate %></td>
+                        <td><%= service.price_estimate %></td>
+                        <td><%= service.duration %></td>
+                        <td><%= service.recommendations %></td>
                         <td>
                             <button class="btn edit-btn" data-id="<%= service.id %>">แก้ไข</button>
                             <form action="/service/delete/<%= service.id %>" method="POST" style="display:inline;">
@@ -51,6 +56,9 @@
                 <% }); %>
             </tbody>
         </table>
+        <div class="no-results" id="noResults" style="display: none;">
+            <p>ไม่พบข้อมูล</p>
+        </div>
     </div>
 
     <footer style="bottom: 0;">
@@ -104,6 +112,7 @@
         document.getElementById('searchInput').addEventListener('input', function () {
             const searchText = this.value.toLowerCase();
             const rows = document.querySelectorAll('table tbody tr');
+            let found = false;
 
             rows.forEach(row => {
                 const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
@@ -111,11 +120,20 @@
                 const detail = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
 
                 if (name.includes(searchText) || description.includes(searchText) || detail.includes(searchText)) {
-                    row.style.display = ''; // แสดงแถวที่ตรงกับคำค้นหา
+                    row.style.display = ""; // แสดงแถวที่ตรงกับคำค้นหา
+                    found = true;
                 } else {
                     row.style.display = 'none'; // ซ่อนแถวที่ไม่ตรง
                 }
             });
+
+            // แสดงหรือซ่อนข้อความ "ไม่พบข้อมูล"
+            const noResults = document.getElementById('noResults');
+            if (found) {
+                noResults.style.display = "none";
+            } else {
+                noResults.style.display = "block";
+            }
         });
     </script>
 </body>
