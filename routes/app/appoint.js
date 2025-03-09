@@ -116,7 +116,7 @@ router.post("/confirm", (req, res) => {
           });
         }
 
-        const newState = parseInt(rows[0].state_id) > 3 ? 3 : 2;
+        const newState = parseInt(rows[0].state_id) == 1 ? 2 : 3;
 
         db.run("UPDATE appointment SET state_id = ? WHERE id = ?", [newState, appointment_id], function (err) {
           if (err) {
