@@ -165,7 +165,7 @@ router.post("/denied", (req, res) => {
     });
   });
 });
-
+/*
 router.post("/add", (req, res) => {
   const { serviceId, date, appointmentId } = req.body;
   const username = req.cookies.username;
@@ -219,5 +219,5 @@ router.post("/add", (req, res) => {
       });
   });
 });
-
+*/
 module.exports = router;
