@@ -43,6 +43,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+/*
 router.get("/before", async (req, res) => {
   const username = req.cookies.username;
       let sql = `
@@ -70,6 +71,7 @@ router.get("/before", async (req, res) => {
         res.render("appoint/confirm", { appointments: rows, username })
       });
 });
+*/
 
 //Adding appointment route
 router.post("/add", (req, res) => {

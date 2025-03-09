@@ -43,7 +43,7 @@ router.get('/', (req, res) => {
             ORDER BY appointment.date DESC;
         `;
     }else if (role === "doctor") {
-        return res.redirect("/appointment/before");
+        return res.redirect("/appointment");
     } 
     else {
         return res.status(403).send("Access Denied");
