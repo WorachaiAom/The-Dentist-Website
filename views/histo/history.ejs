@@ -37,6 +37,7 @@
                                         <th>วันที่ได้รับบริการ</th>
                                         <th>บริการ</th>
                                         <th>รายละเอียดเพิ่มเติม</th>
+                                        <th>คะแนน</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,6 +70,28 @@
                                                         </p>
                                                         <% } %>
                                             </td>
+                                            <td>
+                                                <% if (role==='customer' ) { %>
+                                                    <select class="score-select" data-id="<%= appointment.id %>">
+                                                        <option value="1" <%=appointment.score==1 ? 'selected' : '' %>>1
+                                                        </option>
+                                                        <option value="2" <%=appointment.score==2 ? 'selected' : '' %>>2
+                                                        </option>
+                                                        <option value="3" <%=appointment.score==3 ? 'selected' : '' %>>3
+                                                        </option>
+                                                        <option value="4" <%=appointment.score==4 ? 'selected' : '' %>>4
+                                                        </option>
+                                                        <option value="5" <%=appointment.score==5 ? 'selected' : '' %>>5
+                                                        </option>
+                                                    </select>
+                                                    <button class="save-score-btn"
+                                                        data-id="<%= appointment.id %>">บันทึกคะแนน</button>
+                                                    <% } else { %>
+                                                        <p>
+                                                            <%= appointment.score || 'ยังไม่ได้คะแนน' %>
+                                                        </p>
+                                                        <% } %>
+                                            </td>
                                         </tr>
                                         <% }); %>
                                 </tbody>
@@ -90,7 +113,6 @@
                 const rows = table.getElementsByTagName('tr');
                 const noSearchResult = document.querySelector('.no-search-result');
 
-                // Get user role from cookies
                 function getCookie(name) {
                     let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
                     return match ? match[2] : null;
@@ -98,7 +120,6 @@
 
                 const userRole = getCookie('role');
 
-                // Set initial message based on role
                 if (userRole === 'doctor') {
                     noSearchResult.textContent = "ไม่พบข้อมูลลูกค้าดังกล่าว";
                 } else if (userRole === 'customer') {
@@ -117,11 +138,9 @@
                         if (match) found = true;
                     });
 
-                    // Show/hide no search result message based on found results
                     noSearchResult.style.display = found ? 'none' : 'block';
                 });
 
-                // If the user is a doctor, allow them to update additional info
                 if (userRole === 'doctor') {
                     document.querySelectorAll('.save-info-btn').forEach(button => {
                         button.addEventListener('click', function () {
@@ -139,16 +158,37 @@
                         });
                     });
                 }
+
+                if (userRole === 'customer') {
+                    document.querySelectorAll('.save-score-btn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const appointmentId = this.dataset.id;
+                            const score = document.querySelector(`.score-select[data-id='${appointmentId}']`).value;
+
+                            fetch('/history/update-score', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ appointmentId, score })
+                            })
+                                .then(response => response.text())
+                                .then(data => alert(data))
+                                .catch(error => console.error("Error:", error));
+                        });
+                    });
+                }
+
+                // Function to download table as Excel
+                function downloadExcel() {
+                    let table = document.querySelector(".history-table");
+                    let wb = XLSX.utils.book_new();
+                    let ws = XLSX.utils.table_to_sheet(table);
+                    XLSX.utils.book_append_sheet(wb, ws, "History");
+                    XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
+                }
+
+                // Add download button listener
+                document.querySelector('.button-download').addEventListener('click', downloadExcel);
             });
-
-            function downloadExcel() {
-                let table = document.querySelector(".history-table");
-                let wb = XLSX.utils.book_new();
-                let ws = XLSX.utils.table_to_sheet(table);
-                XLSX.utils.book_append_sheet(wb, ws, "History");
-                XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
-            }
-
         </script>
 </body>
 
