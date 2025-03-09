@@ -22,7 +22,7 @@ router.get("/register", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, fname, sname, password, confirmPassword } = req.body;
+  const { username, fname, sname, password, confirmPassword, email, tel } = req.body;
 
   if (password !== confirmPassword) {
     return res.status(400).send("Passwords do not match");
@@ -34,8 +34,8 @@ router.post("/register", async (req, res) => {
 
     // Insert into users table
     db.run(
-      "INSERT INTO users (username, password) VALUES (?, ?)",
-      [username, hashedPassword],
+      "INSERT INTO users (username, password, email, tel) VALUES (?, ?, ?, ?)",
+      [username, hashedPassword, email, tel],
       function (err) {
         if (err) {
           db.run("ROLLBACK"); // Rollback the transaction on error
