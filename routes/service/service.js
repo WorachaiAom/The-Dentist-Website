@@ -24,9 +24,9 @@ router.get('/add', (req, res) => {
 
 // เพิ่มบริการใหม่
 router.post('/add', (req, res) => {
-    const { name, description, detail, rating } = req.body;
-    const query = 'INSERT INTO services (name, description, detail, rating) VALUES (?, ?, ?, ?)';
-    db.run(query, [name, description, detail, rating], function (err) {
+    const { name, description, detail, rate } = req.body;
+    const query = 'INSERT INTO services (name, description, detail, rate) VALUES (?, ?, ?, ?)';
+    db.run(query, [name, description, detail, rate], function (err) {
         if (err) {
             console.error('Error adding service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการเพิ่มบริการ');
@@ -52,9 +52,9 @@ router.get('/edit/:id', (req, res) => {
 // แก้ไขบริการ
 router.post('/edit/:id', (req, res) => {
     const serviceId = req.params.id;
-    const { name, description, detail, rating } = req.body;
-    const query = 'UPDATE services SET name = ?, description = ?, detail = ?, rating = ? WHERE id = ?';
-    db.run(query, [name, description, detail, rating, serviceId], function (err) {
+    const { name, description, detail, rate } = req.body;
+    const query = 'UPDATE services SET name = ?, description = ?, detail = ?, rate = ? WHERE id = ?';
+    db.run(query, [name, description, detail, rate, serviceId], function (err) {
         if (err) {
             console.error('Error updating service:', err.message);
             return res.status(500).send('เกิดข้อผิดพลาดในการแก้ไขบริการ');
