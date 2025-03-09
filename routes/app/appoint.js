@@ -44,6 +44,34 @@ router.get("/", async(req, res) => {
 });
 
 //Adding appointment route
+router.post("/add", (req, res) => {
+  const {serviceId, date} = req.body;
+  const username = req.cookies.username;
+
+  db.serialize(() => {
+     db.run("BEGIN TRANSACTION");
+     //to do: more efficient way to identify user cutomer_id
+     db.all("SELECT users.id AS uid, doctors.id AS did FROM users CROSS JOIN doctors WHERE users.username=? AND doctors.service_id=?", [username, serviceId],
+         function (err, user) {
+          console.log(user);
+           db.run(
+             "INSERT INTO appointment (customer_id, state_id, employee_id, service_id, date) VALUES (?, ?, ?, ?, ?)",
+             [user[0].uid, 1, user[0].did, serviceId, date],//to do: default for doctor strange for test.
+             function (err) {
+               if (err) {
+                 db.run("ROLLBACK"); // Rollback the transaction on error
+                 return res.status(400).send("Error adding appointment" + err);
+               }
+               db.run("COMMIT");
+               res.redirect("/editappt");
+             }
+           );
+         }
+       );
+ }); 
+});
+
+//Confirm appointment
 router.post("/confirm", (req, res) => {
   const { appointment_id } = req.body;
 
