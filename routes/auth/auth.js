@@ -4,28 +4,25 @@ const bcrypt = require("bcryptjs");
 const { db, checkDatabaseConnection } = require("../../database/database");
 
 router.get("/login", async (req, res) => {
-  try {
-    await checkDatabaseConnection();
-    res.render("auth/login");
-  } catch (err) {
-    res.status(500).send("Database connection error");
-  }
+  const messages = {
+    error: req.flash('error') || [] // กำหนดค่าเริ่มต้นเป็น array ว่าง
+  };
+  res.render('auth/login', { messages });
 });
 
-router.get("/register", async (req, res) => {
-  try {
-    await checkDatabaseConnection();
-    res.render("auth/register");
-  } catch (err) {
-    res.status(500).send("Database connection error");
-  }
+router.get('/register', (req, res) => {
+  const messages = {
+    error: req.flash('error') || [] // กำหนดค่าเริ่มต้นเป็น array ว่าง
+  };
+  res.render('auth/register', { messages });
 });
 
 router.post("/register", async (req, res) => {
   const { username, fname, sname, password, confirmPassword, email, tel } = req.body;
 
   if (password !== confirmPassword) {
-    return res.status(400).send("Passwords do not match");
+    req.flash('error', 'รหัสผ่านไม่ตรงกัน');
+    return res.redirect('register');
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,14 +36,16 @@ router.post("/register", async (req, res) => {
       function (err) {
         if (err) {
           db.run("ROLLBACK"); // Rollback the transaction on error
-          return res.status(400).send("Error registering user 1 " + err);
+          req.flash('error', 'มีบางอย่างไม่ถูกต้อง');
+          return res.redirect('register');
         }
 
         db.all("SELECT * FROM users WHERE username= ?", [username],
           function (err, user) {
             if (err) {
               db.run("ROLLBACK"); // Rollback the transaction on error
-              return res.status(400).send("Error registering user 2 " + err);
+              req.flash('error', 'มีบางอย่างไม่ถูกต้อง');
+              return res.redirect('register');
             }
             console.log(user[0].id);
             // Insert into customers table
@@ -56,7 +55,8 @@ router.post("/register", async (req, res) => {
               function (err) {
                 if (err) {
                   db.run("ROLLBACK"); // Rollback the transaction on error
-                  return res.status(400).send("Error registering user 3 " + err);
+                  req.flash('error', 'มีบางอย่างไม่ถูกต้อง');
+                  return res.redirect('register');
                 }
 
                 // Commit the transaction if both queries succeed
@@ -99,12 +99,14 @@ router.post("/login", (req, res) => {
     [username],
     async (err, user) => {
       if (err || !user) {
-        return res.status(400).send("Invalid username");
+        req.flash('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+        return res.redirect('login');
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(400).send("Invalid password");
+        req.flash('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+        return res.redirect('login');
       }
 
       res.cookie("username", user.username);

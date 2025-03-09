@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="/styles/style_login-register.css">
 </head>
 <body>
+  <% if (messages.error && messages.error.length > 0) { %>
+    <script>
+      alert('<%= messages.error[0] %>');
+    </script>
+  <% } %>
   <div class="container">
     <div class="register-container center">
       <div class="register-card text-center">
