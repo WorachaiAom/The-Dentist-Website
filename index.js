@@ -8,6 +8,8 @@ const eapptRoutes = require('./routes/edit/eappt');
 const eacctRoutes = require('./routes/edit/eacct');
 const appointRoutes = require('./routes/app/appoint');
 const { checkDatabaseConnection, db } = require('./database/database');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 
@@ -18,6 +20,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  }));
+
+app.use(flash());
 
 function notificationsfunction(req, res, next) {
     if (!req.cookies.username) {
