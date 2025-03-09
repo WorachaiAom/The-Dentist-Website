@@ -309,3 +309,65 @@ a {
     font-size: 14px;
   }
 }
+
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #6b7280; /* สีเทาเข้ม */
+  padding: 20px;
+  background-color: #f3f4f6; /* สีพื้นหลังอ่อน */
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 80%;
+  width: 100%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive สำหรับมือถือ */
+@media (max-width: 768px) {
+  .no-data-message {
+    font-size: 16px;
+    padding: 15px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-data-message {
+    font-size: 14px;
+    padding: 10px;
+    max-width: 95%;
+  }
+}
+
+.no-search-result {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #6b7280; /* สีเทาเข้ม */
+  padding: 20px;
+  background-color: #f3f4f6; /* สีพื้นหลังอ่อน */
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 80%;
+  width: 100%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive สำหรับมือถือ */
+@media (max-width: 768px) {
+  .no-search-result {
+    font-size: 16px;
+    padding: 15px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-search-result {
+    font-size: 14px;
+    padding: 10px;
+    max-width: 95%;
+  }
+}
