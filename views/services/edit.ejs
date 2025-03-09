@@ -1,30 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แก้ไขบริการ</title>
-    <link rel="stylesheet" href="/nav.css">
-</head>
-<body>
-    <%- include('../nav') %>
-    <div class="container">
-        <h1>แก้ไขบริการ</h1>
-        <form action="/service/edit/<%= service.id %>" method="POST">
-            <label for="name">ชื่อบริการ:</label>
-            <input type="text" id="name" name="name" value="<%= service.name %>" required>
-            
-            <label for="description">คำอธิบาย:</label>
-            <input type="text" id="description" name="description" value="<%= service.description %>" required>
-            
-            <label for="detail">รายละเอียด:</label>
-            <textarea id="detail" name="detail" required><%= service.detail %></textarea>
-            
-            <label for="rating">เรตติ้ง:</label>
-            <input type="number" id="rating" name="rating" value="<%= service.rating %>" min="1" max="5" required>
-            
-            <button type="submit" class="btn">บันทึกการแก้ไข</button>
-        </form>
-    </div>
-</body>
-</html>
+<div class="popup-content">
+    <button class="close-btn">&times;</button>
+    <h1>แก้ไขบริการ</h1>
+    <form action="/service/edit/<%= service.id %>" method="POST">
+        <label for="name">ชื่อบริการ:</label>
+        <input type="text" id="name" name="name" value="<%= service.name %>" required>
+        
+        <label for="description">คำอธิบาย:</label>
+        <input type="text" id="description" name="description" value="<%= service.description %>" required>
+        
+        <label for="detail">รายละเอียด:</label>
+        <textarea id="detail" name="detail" required><%= service.detail %></textarea>
+        
+        <label for="rate">เรตติ้ง:</label>
+        <input type="number" id="rate" name="rate" value="<%= service.rate %>" min="1" max="5" required>
+        
+        <button type="submit" class="btn">บันทึกการแก้ไข</button>
+    </form>
+</div>
+
+<link rel="stylesheet" href="../service/edit.css">
