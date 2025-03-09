@@ -190,7 +190,10 @@ footer {
 .rating {
     margin-top: 10px;
     display: flex;
+    justify-content: space-between; /* ให้ child กระจายซ้าย-ขวา */
+    align-items: center; /* จัดให้อยู่แนวกลาง */
     gap: 5px;
+    width: 100%; /* ให้เต็มความกว้างของ container */
 }
 
 .star {
@@ -204,4 +207,15 @@ footer {
 .star.filled {
     color: #ffcc00;
     /* สีดาวที่ถูกเติม */
+}
+
+#appoinA-but {
+    padding: 10px 10px;
+    font-size: 1.2rem;
+    background: #22ae0a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-left: auto; /* ดันปุ่มไปขวาสุด */
 }
