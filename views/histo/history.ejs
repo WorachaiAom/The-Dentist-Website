@@ -105,7 +105,49 @@
         <center>
             <button class="button-download" onclick="downloadExcel()">ดาวน์โหลด</button>
         </center>
-
+        <table class="history-table2" style="display: none;">
+            <thead>
+                <tr>
+                    <th>ผู้เข้ารับบริการ</th>
+                    <th>สถานะ</th>
+                    <th>ผู้ให้บริการ</th>
+                    <th>วันที่ได้รับบริการ</th>
+                    <th>บริการ</th>
+                    <th>รายละเอียดเพิ่มเติม</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% appointments.forEach(appointment=> { %>
+                    <tr>
+                        <td>
+                            <%= appointment.customer_name %>
+                        </td>
+                        <td>
+                            <%= appointment.appointment_status %>
+                        </td>
+                        <td>
+                            <%= appointment.provider_name %>
+                        </td>
+                        <td>
+                            <%= appointment.date %>
+                        </td>
+                        <td>
+                            <%= appointment.service_name %>
+                        </td>
+                        <td>
+                            <% if (role==='doctor' ) { %>
+                                <textarea class="info-text"
+                                    data-id="<%= appointment.id %>"><%= appointment.info || '' %></textarea>
+                                <% } else { %>
+                                    <p>
+                                        <%= appointment.info || 'ไม่มีข้อมูล' %>
+                                    </p>
+                                    <% } %>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const searchInput = document.querySelector('.search-input');
@@ -175,18 +217,15 @@
                                 .catch(error => console.error("Error:", error));
                         });
                     });
-                }
+                };
 
-                // Function to download table as Excel
                 function downloadExcel() {
-                    let table = document.querySelector(".history-table");
+                    let table = document.querySelector(".history-table2");
                     let wb = XLSX.utils.book_new();
                     let ws = XLSX.utils.table_to_sheet(table);
                     XLSX.utils.book_append_sheet(wb, ws, "History");
                     XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
                 }
-
-                // Add download button listener
                 document.querySelector('.button-download').addEventListener('click', downloadExcel);
             });
         </script>
