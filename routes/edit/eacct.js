@@ -28,7 +28,9 @@ router.get('/', async (req, res) => {
                 SELECT 
                     users.username, 
                     customers.fname, 
-                    customers.sname
+                    customers.sname,
+                    users.email,
+                    users.tel
                 FROM 
                     users 
                 LEFT JOIN 
@@ -45,6 +47,8 @@ router.get('/', async (req, res) => {
                 ausername: user.username,
                 fname: user.fname,
                 sname: user.sname,
+                email: user.email,
+                tel: user.tel,
                 username
             });
         });
@@ -57,16 +61,15 @@ router.get('/', async (req, res) => {
 
 // เส้นทางสำหรับอัปเดตโปรไฟล์
 router.post('/update-profile', async (req, res) => {
-    const { username, password, fname, sname } = req.body;
+    const { username, password, fname, sname, email, tel } = req.body;
     const currentUsername = req.cookies.username;
     let usernameChanged = false;
 
     try {
-        await new Promise((resolve, reject) => {
-            db.run("BEGIN TRANSACTION", (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run("BEGIN TRANSACTION", (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         if (password) {
@@ -87,6 +90,7 @@ router.post('/update-profile', async (req, res) => {
                 }
             });
         }
+
         if (sname){
             let query = `UPDATE customers SET sname = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
             db.run(query, [sname, currentUsername], (err) => {
@@ -96,32 +100,47 @@ router.post('/update-profile', async (req, res) => {
             });
         }
 
+        if (email){
+            let query = `UPDATE users SET email = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
+            db.run(query, [email, currentUsername], (err) => {
+                if (err){
+                    console.log(err);
+                }
+            });
+        }
+
+        if (tel){
+            let query = `UPDATE users SET tel = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
+            db.run(query, [tel, currentUsername], (err) => {
+                if (err){
+                    console.log(err);
+                }
+            });
+        }
+
         if (username !== currentUsername && username != undefined) {
             const updateUsernameSql = `UPDATE users SET username = ? WHERE username = ?;`;
-            await new Promise((resolve, reject) => {
-                db.run(updateUsernameSql, [username, currentUsername], (err) => {
-                    if (err) reject(err);
-                    else resolve();
-                });
+            db.run(updateUsernameSql, [username, currentUsername], (err) => {
+                if (err){
+                    console.log(err);
+                }
             });
-
             // อัปเดตคุกกี้ใหม่
             res.cookie('username', username, { httpOnly: true });
             usernameChanged = true;
         }
 
-        await new Promise((resolve, reject) => {
-            db.run("COMMIT", (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run("COMMIT", (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         res.json({ success: true, refresh: usernameChanged });
 
     } catch (err) {
         console.error(err);
-        await new Promise((resolve) => db.run("ROLLBACK", () => resolve()));
+        db.run("ROLLBACK", () => resolve());
         res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาด' });
     }
 });
@@ -136,53 +155,47 @@ router.delete('/delete-account', async (req, res) => {
 
     try {
         // เริ่มต้นการทำงานกับฐานข้อมูล
-        await new Promise((resolve, reject) => {
-            db.run("BEGIN TRANSACTION", (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run("BEGIN TRANSACTION", (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         // ลบ appointment ที่เกี่ยวข้องกับ customer_id
         const deleteAppointmentsSql = `DELETE FROM appointment WHERE customer_id = (SELECT id FROM users WHERE username = ?);`;
-        await new Promise((resolve, reject) => {
-            db.run(deleteAppointmentsSql, [username], (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run(deleteAppointmentsSql, [username], (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         // ลบข้อมูลจากตาราง customers
         const deleteCustomerSql = `DELETE FROM customers WHERE id = (SELECT id FROM users WHERE username = ?);`;
-        await new Promise((resolve, reject) => {
-            db.run(deleteCustomerSql, [username], (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run(deleteCustomerSql, [username], (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         // ลบข้อมูลจากตาราง users
         const deleteUserSql = `DELETE FROM users WHERE username = ?;`;
-        await new Promise((resolve, reject) => {
-            db.run(deleteUserSql, [username], (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run(deleteUserSql, [username], (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         // เสร็จสิ้นการลบข้อมูลทั้งหมด
-        await new Promise((resolve, reject) => {
-            db.run("COMMIT", (err) => {
-                if (err) reject(err);
-                else resolve();
-            });
+        db.run("COMMIT", (err) => {
+            if (err){
+                console.log(err);
+            }
         });
 
         res.json({ success: true, message: 'บัญชีถูกลบเรียบร้อยแล้ว' });
     } catch (err) {
         console.error(err);
-        console.log("KUYRAIMAEYED");
-        await new Promise((resolve) => db.run("ROLLBACK", () => resolve()));
+        db.run("ROLLBACK", () => resolve());
         res.status(500).json({ success: false, message: 'เกิดข้อผิดพลาดในการลบบัญชี' });
     }
 });
