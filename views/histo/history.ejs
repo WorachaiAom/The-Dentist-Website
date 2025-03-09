@@ -1,5 +1,4 @@
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,8 @@
 </head>
 
 <body>
-
     <%- include('../nav_login') %>
     <div class="history-container">
-
         <div class="header-section">
             <div class="title-section">
                 <h1 class="title">ประวัติการเข้าใช้</h1>
@@ -35,33 +32,33 @@
                             <th>ผู้ให้บริการ</th>
                             <th>วันที่ได้รับบริการ</th>
                             <th>บริการ</th>
+                            <th>รายละเอียดเพิ่มเติม</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% appointments.forEach(appointment=> { %>
+                        <% appointments.forEach(appointment => { %>
                             <tr>
+                                <td><%= appointment.customer_name %></td>
+                                <td><%= appointment.appointment_status %></td>
+                                <td><%= appointment.provider_name %></td>
+                                <td><%= appointment.date %></td>
+                                <td><%= appointment.service_name %></td>
                                 <td>
-                                    <%= appointment.customer_name %>
-                                </td>
-                                <td>
-                                    <%= appointment.appointment_status %>
-                                </td>
-                                <td>
-                                    <%= appointment.provider_name %>
-                                </td>
-                                <td>
-                                    <%= appointment.date %>
-                                </td>
-                                <td>
-                                    <%= appointment.service_name %>
+                                    <% if (role === 'doctor') { %>
+                                        <textarea class="info-text" data-id="<%= appointment.id %>"><%= appointment.info || '' %></textarea>
+                                        <button class="save-info-btn" data-id="<%= appointment.id %>">ยืนยัน</button>
+                                    <% } else { %>
+                                        <p><%= appointment.info || 'ไม่มีข้อมูล' %></p>
+                                    <% } %>
                                 </td>
                             </tr>
-                            <% }); %>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
     <center>
         <button class="button-download" onclick="downloadExcel()">ดาวน์โหลด</button>
     </center>
@@ -72,25 +69,49 @@
             const table = document.querySelector('.history-table tbody');
             const rows = table.getElementsByTagName('tr');
 
+            function getCookie(name) {
+                let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                return match ? match[2] : null;
+            }
+
+            const userRole = getCookie('role');
+
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
                 Array.from(rows).forEach(row => {
-                    const serviceCell = row.cells[4];
-                    const serviceName = serviceCell.textContent.toLowerCase();
-                    row.style.display = serviceName.includes(query) ? '' : 'none';
+                    let searchCell = userRole === 'customer' ? row.cells[4] : row.cells[0];
+                    const searchText = searchCell.textContent.toLowerCase();
+                    row.style.display = searchText.includes(query) ? '' : 'none';
                 });
             });
+
+            // หมอสามารถแก้ไขรายละเอียดเพิ่มเติมได้
+            if (userRole === 'doctor') {
+                document.querySelectorAll('.save-info-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const appointmentId = this.dataset.id;
+                        const infoText = document.querySelector(`textarea[data-id='${appointmentId}']`).value;
+                        
+                        fetch('/history/update-info', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ appointmentId, info: infoText })
+                        })
+                        .then(response => response.text())
+                        .then(data => alert(data))
+                        .catch(error => console.error("Error:", error));
+                    });
+                });
+            }
         });
 
         function downloadExcel() {
-        let table = document.querySelector(".history-table");
-        let wb = XLSX.utils.book_new();
-        let ws = XLSX.utils.table_to_sheet(table);
-
-        XLSX.utils.book_append_sheet(wb, ws, "History");
-        XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
-    }
+            let table = document.querySelector(".history-table");
+            let wb = XLSX.utils.book_new();
+            let ws = XLSX.utils.table_to_sheet(table);
+            XLSX.utils.book_append_sheet(wb, ws, "History");
+            XLSX.writeFile(wb, "ประวัติการเข้าใช้.xlsx");
+        }
     </script>
 </body>
-
 </html>
