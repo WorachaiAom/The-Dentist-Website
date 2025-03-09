@@ -23,10 +23,18 @@ router.get('/', (req, res) => {
 
 //แสดงหน้า "ข้อมูลเพิ่มเติม/เกี่ยวกับเรา"
 router.get('/aboutus', (req, res) => {
+    const cardDoctor = 'SELECT description FROM doctors';
     const username = req.cookies.username; // ตรวจสอบว่ามี cookie หรือไม่
     const navTemplate = username ? '../nav_login' : '../nav'; // เลือก navigation ตามสถานะการเข้าสู่ระบบ
-    res.render('homepage/aboutus', { username, navTemplate });
+    
+        db.all(cardDoctor, [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching services:', err.message);
+            return res.status(500).send('Error fetching services');
+        }
 
+        res.render('homepage/aboutus', { data: rows, username, navTemplate });
+    });
 });
 
 //แสดง popup card

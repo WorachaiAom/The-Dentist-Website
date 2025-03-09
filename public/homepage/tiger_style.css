@@ -7,21 +7,28 @@
 }
 
 /* Ensure Full Page Height */
-html, body {
-    height: 100%;  /* Full height of viewport */
-    overflow-x: hidden;  /* Prevent horizontal scrolling */
+html,
+body {
+    height: 100%;
+    /* Full height of viewport */
+    overflow-x: hidden;
+    /* Prevent horizontal scrolling */
     margin: 0;
 }
 
 /* Push Content Below Fixed Navbar */
 /* Main Content Area */
 .container {
-    flex: 1; /* Pushes footer to the bottom */
-    padding-top: 120px; /* Add some space to avoid overlap with navbar */
-    padding-bottom: 60px; /* Ensure footer doesn't overlap with content */
+    flex: 1;
+    /* Pushes footer to the bottom */
+    padding-top: 120px;
+    /* Add some space to avoid overlap with navbar */
+    padding-bottom: 60px;
+    /* Ensure footer doesn't overlap with content */
     max-width: 1200px;
     margin: auto;
-    overflow-y: auto;  /* Allow scrolling */
+    overflow-y: auto;
+    /* Allow scrolling */
 }
 
 /* Hero Section */
@@ -34,7 +41,8 @@ html, body {
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     animation: fadeIn 1.5s ease-in-out;
-    margin-bottom: 50px; /* Add margin to create space after hero section */
+    margin-bottom: 50px;
+    /* Add margin to create space after hero section */
 }
 
 .hero h1 {
@@ -106,8 +114,10 @@ footer {
     text-align: center;
     width: 100%;
     display: grid;
-    gap: 20px; /* Add spacing between elements */
-    box-sizing: border-box;  /* Prevents footer from going outside the page */
+    gap: 20px;
+    /* Add spacing between elements */
+    box-sizing: border-box;
+    /* Prevents footer from going outside the page */
 }
 
 /*Search Section*/
@@ -140,25 +150,29 @@ footer {
     font-size: 16px;
     border-radius: 5px;
     transition: background 0.3s ease, color 0.3s ease;
-    background-color: #ddd; /* สีพื้นหลังอ่อน */
+    background-color: #ddd;
+    /* สีพื้นหลังอ่อน */
     color: black;
-    border: 1px solid #ccc; /* เพิ่มเส้นแบ่ง */
+    border: 1px solid #ccc;
+    /* เพิ่มเส้นแบ่ง */
 }
 
-.sort-option:hover{
+.sort-option:hover {
     background-color: #0066cc;
     color: white;
     transform: scale(1.05);
 }
 
 .sort-option.active {
-    background-color: #0056b3; /* สีพื้นหลังเข้มเมื่อเลือก */
+    background-color: #0056b3;
+    /* สีพื้นหลังเข้มเมื่อเลือก */
     color: white;
 }
 
 .manage-service-btn {
     padding: 8px 16px;
-    background-color: #28a745; /* สีเขียว */
+    background-color: #28a745;
+    /* สีเขียว */
     color: white;
     border: none;
     border-radius: 4px;
@@ -170,4 +184,24 @@ footer {
 
 .manage-service-btn:hover {
     opacity: 0.9;
+}
+
+
+.rating {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.star {
+    font-size: 1.5em;
+    color: #ddd;
+    /* สีดาวปกติ */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.star.filled {
+    color: #ffcc00;
+    /* สีดาวที่ถูกเติม */
 }

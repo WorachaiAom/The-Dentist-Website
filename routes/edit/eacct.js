@@ -24,8 +24,6 @@ router.get('/', async (req, res) => {
 
     try {
         await checkDatabaseConnection();
-
-        if (role === 'customer') {
             sql = `
                 SELECT 
                     users.username, 
@@ -38,10 +36,6 @@ router.get('/', async (req, res) => {
                 WHERE 
                     users.username = ?;
             `;
-        } else {
-            return res.status(403).send("Unauthorized: Invalid Role");
-        }
-
         db.get(sql, [username], (err, user) => {
             if (err || !user) {
                 return res.status(500).send("ไม่พบข้อมูลผู้ใช้");

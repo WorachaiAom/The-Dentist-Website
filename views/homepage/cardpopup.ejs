@@ -13,6 +13,18 @@
         <p><strong>รายละเอียด:</strong>
             <%= service.detail %>
         </p>
+        <p><strong>ความนิยม:</strong>
+            <%= service.rate %>
+        </p>
+        <p><strong>ราคา:</strong>
+            <%= service.price_estimate %>
+        </p>
+        <p><strong>ระยะเวลา:</strong>
+            <%= service.duration %>
+        </p>
+        <p><strong>ข้อแนะนำ:</strong>
+            <%= service.recommendations %>
+        </p>
         
         <a href="appointment?serviceId=<%= service.id %>">
             <button id="appoin-but">จอง</button>

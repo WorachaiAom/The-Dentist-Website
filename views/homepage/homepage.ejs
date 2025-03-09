@@ -40,15 +40,17 @@
 
                 </div>
                 <div class="grid" id="serviceGrid">
-                    <% data.forEach(item=> { %>
-                        <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>"
-                            data-rate="<%= item.rate %>">
-                            <h2>
-                                <%= item.name %>
-                            </h2>
-                            <%= item.description %>
+                    <% data.forEach(item => { %>
+                        <div class="service-card" data-id="<%= item.id %>" data-name="<%= item.name.toLowerCase() %>" data-rate="<%= item.rate %>">
+                            <h2><%= item.name %></h2>
+                            <p><%= item.description %></p>
+                            <div class="rating">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <span class="star <%= i <= item.rate ? 'filled' : '' %>">&#9733;</span>
+                                <% } %>
+                            </div>
                         </div>
-                        <% }); %>
+                    <% }); %>
                 </div>
             </section>
         </div>
