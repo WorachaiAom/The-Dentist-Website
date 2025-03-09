@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
     }
 
     let sql;
+    console.log(username);
     let params = [username];
 
     if (role === "customer") {
@@ -30,6 +31,7 @@ router.get('/', (req, res) => {
                 state.id AS state_id,
                 services.name AS service_name,
                 appointment.date,
+                appointment.service_id AS service_id,
                 employees.fname || ' ' || employees.sname AS provider_name
             FROM appointment
             JOIN customers ON appointment.customer_id = customers.id

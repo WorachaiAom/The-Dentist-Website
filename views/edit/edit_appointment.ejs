@@ -47,7 +47,7 @@
                                     <td><%= appointment.date %></td>
                                     <td class="action-buttons">
                                         <button class="button-edit">
-                                            <a href="/appoint/customer?edit=true&appointmentId=<%= appointment.id %>&serviceId=<%= appointment.service_id %>">แก้ไข</a>
+                                            <a href="/appointment?serviceId=<%= appointment.service_id %>">แก้ไข</a>
                                         </button>                               
                                         <button class="button-cancel" onclick="showCancelConfirmation('<%= appointment.id %>')">ยกเลิก</button>
                                     </td>
