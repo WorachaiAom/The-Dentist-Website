@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการบริการ</title>
+    <link rel="stylesheet" href="/nav.css">
+    <link rel="stylesheet" href="/homepage/tiger.css">
+</head>
+<body>
+    <%- include('../nav_login') %>
+    <div class="container">
+        <h1>จัดการบริการ</h1>
+        <a href="/service/add" class="btn">เพิ่มบริการใหม่</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ชื่อบริการ</th>
+                    <th>คำอธิบาย</th>
+                    <th>รายละเอียด</th>
+                    <th>เรตติ้ง</th>
+                    <th>การกระทำ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% services.forEach(service => { %>
+                    <tr>
+                        <td><%= service.id %></td>
+                        <td><%= service.name %></td>
+                        <td><%= service.description %></td>
+                        <td><%= service.detail %></td>
+                        <td><%= service.rating %></td>
+                        <td>
+                            <a href="/service/edit/<%= service.id %>" class="btn">แก้ไข</a>
+                            <form action="/service/delete/<%= service.id %>" method="POST" style="display:inline;">
+                                <button type="submit" class="btn danger">ลบ</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

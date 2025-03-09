@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="../homepage/tiger_style.css">
+    <link rel="stylesheet" href="../homepage/aboutus.css">
+
+</head>
+<body>
+
+    <!-- ใช้ navigation ตามสถานะของผู้ใช้ -->
+    <%- include(navTemplate) %>
+
+    <header>
+        <h1>Hello <%= username %></h1>
+    </header>
+
+    <div class="container">
+        <div class="content">
+            <h2>เกี่ยวกับเว็บไซต์นี้</h2>
+            <p>
+                เว็บไซต์นี้ได้รับการพัฒนาขึ้นเพื่อเป็นส่วนหนึ่งของโครงงานรายวิชา <span class="highlight">Fundamental Web Programming</span> 
+                โดยนักศึกษากลุ่มที่ 25 คณะเทคโนโลยีสารสนเทศ สาขาเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง
+            </p>
+            <h3>วัตถุประสงค์ของเว็บไซต์</h3>
+            <p>
+                แพลตฟอร์มนี้ถูกออกแบบมาเพื่อ เพิ่มประสิทธิภาพในการบริหารจัดการคิวนัดหมายของคลินิกทันตกรรม 
+                ทำให้ผู้ใช้สามารถเข้าถึงบริการได้อย่างสะดวกสบาย ลดปัญหาความล่าช้าและการรอคิวนาน โดยมุ่งเน้นการใช้งานที่ง่ายและมีประสิทธิภาพ 
+                รองรับผู้ใช้ทุกกลุ่ม
+            </p>
+        </div>
+    </div>
+
+    <footer style="bottom: 0;">
+        <h2>เกี่ยวกับเรา</h2>
+        <p>โทรติดต่อเราเพื่อทำการนัดหมาย</p>
+        <p><strong>+1 234 567 890</strong></p>
+        <p>&copy; 2025 โดย คณะเทคโนโลยีสารสนเทศ สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง</p>
+    </footer>
+
+</body>
+</html>

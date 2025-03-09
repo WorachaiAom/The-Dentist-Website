@@ -95,6 +95,7 @@ html, body {
 
 .service-card:hover {
     transform: translateY(-5px);
+    cursor: pointer;
 }
 
 /* Footer - Fixed at Bottom */
@@ -118,21 +119,33 @@ footer {
     margin-bottom: 10px;
 }
 
-#searchService, #sortById, #sortByName {
+#searchService {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-#sortById, #sortByName {
-    cursor: pointer;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    transition: background 0.3s ease;
+/* ตัวเลือกเรียงลำดับ */
+.sort-options {
+    display: flex;
+    gap: 10px;
 }
 
-#sortById:hover, #sortByName:hover {
-    background-color: #0056b3;
+.sort-option {
+    width: 150px;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+    background-color: #ddd; /* สีพื้นหลังอ่อน */
+    color: black;
+    border: 1px solid #ccc; /* เพิ่มเส้นแบ่ง */
+}
+
+.sort-option.active {
+    background-color: #0056b3; /* สีพื้นหลังเข้มเมื่อเลือก */
+    color: white;
 }

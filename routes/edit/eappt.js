@@ -14,11 +14,11 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
     const username = req.cookies.username;
     const role = req.cookies.role;
-    
+
     if (!username) {
         return res.redirect("/auth/login");
     }
-    
+
     let sql;
     let params = [username];
 
@@ -40,7 +40,10 @@ router.get('/', (req, res) => {
             WHERE users.username = ? 
             ORDER BY appointment.date DESC;
         `;
-    } else {
+    }else if (role === "doctor") {
+        return res.redirect("/appointment/before");
+    } 
+    else {
         return res.status(403).send("Access Denied");
     }
 
@@ -68,7 +71,7 @@ router.post('/delete', (req, res) => {
     `;
 
     // ทำการลบการนัดหมาย
-    db.run(sqlDelete, [appointmentId], function(err) {
+    db.run(sqlDelete, [appointmentId], function (err) {
         if (err) {
             console.error("Error deleting appointment:", err.message);
             return res.status(500).send("Database error");

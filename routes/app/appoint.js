@@ -4,16 +4,16 @@ const { db, checkDatabaseConnection } = require("../../database/database");
 
 
 //appointment main route
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
   const username = req.cookies.username;
   const user_role = req.cookies.role;
   try {
-      await checkDatabaseConnection();
-      //TODO: More efficiency to identify user's role.
-      if(user_role == "customer"){
-        res.render("appoint/customer", { username });
-      }else{
-        let sql = `
+    await checkDatabaseConnection();
+    //TODO: More efficiency to identify user's role.
+    if (user_role == "customer") {
+      res.render("appoint/customer", { username });
+    } else {
+      let sql = `
           SELECT 
               appointment.id,
               customers.fname || ' ' || customers.sname AS customer_name,
@@ -30,17 +30,45 @@ router.get("/", async(req, res) => {
           WHERE employees.id = (SELECT users.id FROM users WHERE username = ?)
           ORDER BY appointment.date DESC;
           `;
-        db.all(sql, [username], (err, rows) => {
-          if (err) {
-            console.error("Error fetching appointment history:", err.message);
-            return res.status(500).send("Database error");
-          }
-          res.render("appoint/confirm", { appointments: rows , username})
-        });
-      }
+      db.all(sql, [username], (err, rows) => {
+        if (err) {
+          console.error("Error fetching appointment history:", err.message);
+          return res.status(500).send("Database error");
+        }
+        res.render("appoint/confirm", { appointments: rows, username })
+      });
+    }
   } catch (err) {
-      res.status(500).send("Database connection error"+err);
+    res.status(500).send("Database connection error" + err);
   }
+});
+
+router.get("/before", async (req, res) => {
+  const username = req.cookies.username;
+      let sql = `
+          SELECT 
+              appointment.id,
+              customers.fname || ' ' || customers.sname AS customer_name,
+              state.status AS appointment_status,
+              employees.fname || ' ' || employees.sname AS provider_name,
+              services.name AS service_name,
+              appointment.date
+          FROM appointment
+          JOIN customers ON appointment.customer_id = customers.id
+          JOIN state ON appointment.state_id = state.id
+          JOIN employees ON appointment.employee_id = employees.id
+          JOIN services ON appointment.service_id = services.id
+          JOIN users ON customers.id = users.id
+          WHERE employees.id = (SELECT users.id FROM users WHERE username = ?)
+          ORDER BY appointment.date DESC;
+          `;
+      db.all(sql, [username], (err, rows) => {
+        if (err) {
+          console.error("Error fetching appointment history:", err.message);
+          return res.status(500).send("Database error");
+        }
+        res.render("appoint/confirm", { appointments: rows, username })
+      });
 });
 
 //Adding appointment route
@@ -138,5 +166,58 @@ router.post("/denied", (req, res) => {
   });
 });
 
+router.post("/add", (req, res) => {
+  const { serviceId, date, appointmentId } = req.body;
+  const username = req.cookies.username;
+  const isEdit = !!appointmentId; // ตรวจสอบว่ามี appointmentId หรือไม่
+
+  db.serialize(() => {
+      const queryCustomer =
+      `
+          SELECT customers.id 
+          FROM customers 
+          JOIN users ON users.id = customers.id 
+          WHERE users.username = ?;`
+
+      db.get(queryCustomer, [username], (err, row) => {
+          if (err || !row) return res.status(400).send("User not found");
+
+          const customerId = row.id;
+
+          const queryDoctor = 
+             ` SELECT employees.id AS employee_id
+              FROM employees
+              JOIN doctors ON doctors.id = employees.id
+              WHERE doctors.service_id = ?;`
+
+          db.get(queryDoctor, [serviceId], (err, doctorRow) => {
+              if (err || !doctorRow) return res.status(400).send("No doctor found for this service");
+
+              const employeeId = doctorRow.employee_id;
+
+              if (isEdit) { // ถ้ามี appointmentId ให้ทำการอัปเดต
+                  const updateSQL = 
+                      `UPDATE appointment 
+                      SET date = ?, service_id = ?, employee_id = ?, state_id = 1
+                      WHERE id = ?;`
+
+                  db.run(updateSQL, [date, serviceId, employeeId, appointmentId], (err) => {
+                      if (err) return res.status(500).send("Error updating appointment");
+                      res.redirect("/editappt"); // กลับไปหน้ารายการนัดหมาย
+                  });
+              } else { // ถ้าไม่มี appointmentId ให้เพิ่มนัดหมายใหม่
+                  const insertSQL = 
+                      `INSERT INTO appointment (customer_id, service_id, date, employee_id, state_id) 
+                      VALUES (?, ?, ?, ?, 1);`
+
+                  db.run(insertSQL, [customerId, serviceId, date, employeeId], (err) => {
+                      if (err) return res.status(500).send("Error creating appointment: " + err.message);
+                      res.redirect("/editappt");
+                  });
+              }
+          });
+      });
+  });
+});
 
 module.exports = router;
