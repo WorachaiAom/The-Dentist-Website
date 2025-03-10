@@ -11,9 +11,9 @@
 <body>
     <div id="calendar-container">
         <div id="calendar_header">
-            <button id="previous_button" class="traverse_button" onclick="previous_month()">Previous</button>
+            <button id="previous_button" class="traverse_button" onclick="previous_month()">ก่อนหน้า</button>
             <div id="month_name">monthnamedefault</div>
-            <button id="next_button" class="traverse_button" onclick="next_month()">Next</button>
+            <button id="next_button" class="traverse_button" onclick="next_month()">ถัดไป</button>
         </div>
         <table id="date_table">
             <tr id="days_name">
@@ -148,6 +148,7 @@
                 label.classList.add("period_item");
                 radio_period.type = "radio";
                 radio_period.name = "date";
+                radio_period.required = true;
                 radio_period.value = date_value + " " + i.toString()+":00:00"
                 radio_period.id = i.toString();
                 label.setAttribute("for", i.toString());
