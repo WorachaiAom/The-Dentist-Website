@@ -78,11 +78,12 @@ router.get('/', async (req, res) => {
 router.post('/update-profile', async (req, res) => {
     const { username, password, fname, sname, email, tel } = req.body;
     const currentUsername = req.cookies.username;
+    const role = req.cookies.role;
     let usernameChanged = false;
 
     try {
         db.run("BEGIN TRANSACTION", (err) => {
-            if (err){
+            if (err) {
                 console.log(err);
             }
         });
@@ -91,43 +92,61 @@ router.post('/update-profile', async (req, res) => {
             const hashedPassword = await bcrypt.hash(password, 10);
             const updatePasswordSql = `UPDATE users SET password = ? WHERE username = ?;`;
             db.run(updatePasswordSql, [hashedPassword, currentUsername], (err) => {
-                if (err){
+                if (err) {
                     console.log(err);
                 }
             });
         }
 
-        if (fname){
-            let query = `UPDATE customers SET fname = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
-            db.run(query, [fname, currentUsername], (err) => {
-                if (err){
-                    console.log(err);
-                }
-            });
+        if (fname) {
+            if (role === 'customer') {
+                let query = `UPDATE customers SET fname = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
+                db.run(query, [fname, currentUsername], (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            } else if (role === 'doctor') {
+                let query = `UPDATE employees SET fname = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
+                db.run(query, [fname, currentUsername], (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
         }
 
-        if (sname){
-            let query = `UPDATE customers SET sname = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
-            db.run(query, [sname, currentUsername], (err) => {
-                if (err){
-                    console.log(err);
-                }
-            });
+        if (sname) {
+            if (role === 'customer') {
+                let query = `UPDATE customers SET sname = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
+                db.run(query, [sname, currentUsername], (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            } else if (role === 'doctor') {
+                let query = `UPDATE employees SET sname = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
+                db.run(query, [sname, currentUsername], (err) => {  // **แก้ไขเป็น sname ถูกต้องแล้ว**
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
         }
 
-        if (email){
-            let query = `UPDATE users SET email = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
+        if (email) {
+            let query = `UPDATE users SET email = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
             db.run(query, [email, currentUsername], (err) => {
-                if (err){
+                if (err) {
                     console.log(err);
                 }
             });
         }
 
-        if (tel){
-            let query = `UPDATE users SET tel = ?  WHERE id = (SELECT id FROM users WHERE username = ?)`
+        if (tel) {
+            let query = `UPDATE users SET tel = ? WHERE id = (SELECT id FROM users WHERE username = ?);`
             db.run(query, [tel, currentUsername], (err) => {
-                if (err){
+                if (err) {
                     console.log(err);
                 }
             });
@@ -136,17 +155,16 @@ router.post('/update-profile', async (req, res) => {
         if (username !== currentUsername && username != undefined) {
             const updateUsernameSql = `UPDATE users SET username = ? WHERE username = ?;`;
             db.run(updateUsernameSql, [username, currentUsername], (err) => {
-                if (err){
+                if (err) {
                     console.log(err);
                 }
             });
-            // อัปเดตคุกกี้ใหม่
             res.cookie('username', username, { httpOnly: true });
             usernameChanged = true;
         }
 
         db.run("COMMIT", (err) => {
-            if (err){
+            if (err) {
                 console.log(err);
             }
         });
