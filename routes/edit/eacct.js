@@ -27,14 +27,18 @@ router.get('/', async (req, res) => {
             sql = `
                 SELECT 
                     users.username, 
-                    customers.fname, 
-                    customers.sname,
+                    customers.fname AS customer_fname, 
+                    customers.sname AS customer_sname,
+                    employees.fname AS employee_fname, 
+                    employees.sname AS employee_sname,
                     users.email,
                     users.tel
                 FROM 
                     users 
                 LEFT JOIN 
                     customers ON users.id = customers.id
+                LEFT JOIN 
+                    employees ON users.id = employees.id
                 WHERE 
                     users.username = ?;
             `;
@@ -43,14 +47,25 @@ router.get('/', async (req, res) => {
                 return res.status(500).send("ไม่พบข้อมูลผู้ใช้");
             }
 
-            res.render('edit/edit_profile', {
-                ausername: user.username,
-                fname: user.fname,
-                sname: user.sname,
-                email: user.email,
-                tel: user.tel,
-                username
-            });
+            if (role === "customer") {
+                res.render('edit/edit_profile', {
+                    ausername: user.username,
+                    fname: user.customer_fname,
+                    sname: user.customer_sname,
+                    email: user.email,
+                    tel: user.tel,
+                    username
+                });
+            } else {
+                res.render('edit/edit_profile', {
+                    ausername: user.username,
+                    fname: user.employee_fname,
+                    sname: user.employee_sname,
+                    email: user.email,
+                    tel: user.tel,
+                    username
+                });
+            }
         });
 
     } catch (err) {
