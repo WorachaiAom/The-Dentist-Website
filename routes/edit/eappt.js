@@ -46,7 +46,7 @@ router.get('/', (req, res) => {
         return res.redirect("/appointment");
     } 
     else {
-        return res.status(403).send("Access Denied");
+        return res.status(403).send("ปฎิเสธการเข้าถึง");
     }
 
     db.all(sql, params, (err, rows) => {
@@ -76,14 +76,14 @@ router.post('/delete', (req, res) => {
     db.run(sqlDelete, [appointmentId], function (err) {
         if (err) {
             console.error("Error deleting appointment:", err.message);
-            return res.status(500).send("Database error");
+            return res.status(500).send("ฐานข้อมูลมีปัญหา");
         }
 
         if (this.changes === 0) {
-            return res.status(404).send("Appointment not found or you do not have permission to delete");
+            return res.status(404).send("ไม่เจอรายการจองหรือคุณไม่มีสิทธิ์เข้าถึง");
         }
 
-        res.send({ message: "Appointment deleted successfully" });
+        res.send({ message: "ลบรายการจองสำเร็จ" });
     });
 });
 

@@ -78,7 +78,7 @@ router.post("/update-info", (req, res) => {
             console.error("Error updating appointment info:", err.message);
             return res.status(500).send("Database error");
         }
-        res.send("Update successful");
+        res.send("เพิ่ม/แก้ไขรายละเอียดเพิ่มเติมสำเร็จ");
     });
 });
 
@@ -96,7 +96,7 @@ router.post("/update-score", (req, res) => {
             console.error("Error updating appointment score:", err.message);
             return res.status(500).send("Database error");
         }
-        res.send("Score update successful");
+        res.send("อัพเดทคะแนนสำเร็จ");
     });
 });
 module.exports = router;
