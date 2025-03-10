@@ -137,10 +137,7 @@ router.post("/login", (req, res) => {
         users.username = ?;`,
     [username],
     async (err, user) => {
-      if (user.verify != "true") {
-        req.flash('error', 'บัญญียังไม่ได้ยืนยัน');
-        return res.redirect('login');
-      }
+      
       if (err || !user) {
         req.flash('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
         return res.redirect('login');
@@ -151,6 +148,11 @@ router.post("/login", (req, res) => {
         req.flash('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
         return res.redirect('login');
       }
+      if (user.verify != "true") {
+        req.flash('error', 'บัญชียังไม่ได้ยืนยัน');
+        return res.redirect('login');
+      }
+      
 
       res.cookie("username", user.username);
       if (user.role_id) {
