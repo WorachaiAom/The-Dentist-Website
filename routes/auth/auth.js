@@ -138,7 +138,7 @@ router.post("/login", (req, res) => {
     [username],
     async (err, user) => {
       if (user.verify != "true") {
-        req.flash('error', 'บัญญียังไม่ได้ยืนยัน');
+        req.flash('error', 'บัญชียังไม่ได้ยืนยัน');
         return res.redirect('login');
       }
       if (err || !user) {
