@@ -5,6 +5,8 @@ echo       "/ __ \   / /    / ____/   /   |  / ___/   / ____/       | |     / / 
 echo      "/ /_/ /  / /    / __/     / /| |  \__ \   / __/          | | /| / /   / /| |   / /    / /"
 echo     "/ ____/  / /___ / /___    / ___ | ___/ /  / /___          | |/ |/ /   / ___ | _/ /    / /     _  _  _ "
 echo    "/_/      /_____//_____/   /_/  |_|/____/  /_____/          |__/|__/   /_/  |_|/___/   /_/     (_)(_)(_)" 
+echo " "
+echo "When open the browser and wait for it to load for a moment (no more than 10 seconds)."
 
 timeout /t 3 >nul
 start http://localhost:3000
