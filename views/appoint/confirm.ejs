@@ -84,7 +84,7 @@
             searchInput.addEventListener('input', function () {
                 const query = searchInput.value.toLowerCase();
                 Array.from(rows).forEach(row => {
-                    const serviceCell = row.cells[4];
+                    const serviceCell = row.cells[0];
                     const serviceName = serviceCell.textContent.toLowerCase();
                     row.style.display = serviceName.includes(query) ? '' : 'none';
                 });
